@@ -1,0 +1,321 @@
+{
+  "LoginPage": {
+    "titleAccept": "Iniciá sesión para aceptar",
+    "titleWelcome": "Te damos la bienvenida",
+    "descAccept": "Iniciá sesión y te llevaremos a la invitación.",
+    "descWelcome": "Ingresá a tu cuenta",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "vos@ejemplo.com",
+    "passwordLabel": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "passwordPlaceholder": "Ingresá tu contraseña",
+    "signingIn": "Ingresando...",
+    "signIn": "Ingresar",
+    "noAccount": "¿Todavía no tenés una cuenta?",
+    "createAccount": "Crear cuenta"
+  },
+  "Header": {
+    "dashboard": "Resumen del equipo",
+    "leads": "Mi trabajo",
+    "leadOperations": "Operaciones de leads",
+    "inbox": "Conversaciones",
+    "notifications": "Notificaciones",
+    "contacts": "Contactos",
+    "pipelines": "Oportunidades",
+    "broadcasts": "Campañas",
+    "automations": "Automatizaciones",
+    "settings": "Configuración",
+    "openMenu": "Abrir menú",
+    "openAccountMenu": "Abrir menú de la cuenta",
+    "defaultUser": "Usuario",
+    "defaultAvatar": "Avatar",
+    "menuProfile": "Mi perfil",
+    "menuSettings": "Configuración",
+    "menuSignOut": "Cerrar sesión"
+  },
+  "Sidebar": {
+    "title": "Leads Nativa",
+    "myWork": "Mi trabajo",
+    "teamSummary": "Resumen del equipo",
+    "leadOperations": "Operaciones",
+    "integrations": "Integraciones",
+    "dashboard": "Panel principal",
+    "inbox": "Conversaciones",
+    "notifications": "Notificaciones",
+    "contacts": "Contactos",
+    "pipelines": "Oportunidades",
+    "broadcasts": "Campañas",
+    "automations": "Automatizaciones",
+    "flows": "Flujos",
+    "aiAgents": "Agentes de IA",
+    "settings": "Configuración",
+    "beta": "Beta",
+    "unreadConversations": "{count} {count, plural, =1 {conversación sin leer} other {conversaciones sin leer}}",
+    "unreadNotifications": "{count} {count, plural, =1 {notificación sin leer} other {notificaciones sin leer}}",
+    "roleOwner": "Responsable",
+    "roleAdmin": "Administrador",
+    "roleAgent": "Vendedor",
+    "roleViewer": "Observador",
+    "closeMenu": "Cerrar menú",
+    "defaultUser": "Usuario",
+    "defaultAvatar": "Avatar",
+    "menuProfile": "Mi perfil",
+    "menuSettings": "Configuración",
+    "menuSignOut": "Cerrar sesión"
+  },
+  "AccountAccess": {
+    "unlinkedTitle": "Este usuario no está vinculado a una cuenta",
+    "unlinkedBody": "No se guardará ningún cambio mientras esto no se resuelva. Si recibiste una invitación, pedile al responsable de la cuenta que vuelva a enviarla.",
+    "errorTitle": "No pudimos cargar tus permisos",
+    "errorBody": "No se pudo obtener tu rol. Por seguridad, las acciones permanecerán en modo de sólo lectura. Revisá tu conexión e intentá nuevamente.",
+    "retry": "Reintentar"
+  },
+  "ModeToggle": {
+    "switchMode": "Cambiar al modo {mode}"
+  },
+  "Settings": {
+    "pageTitle": "Configuración",
+    "pageDesc": "Tu cuenta y tu espacio de trabajo, todo en un solo lugar.",
+    "groups": { "account": "Cuenta", "workspace": "Espacio de trabajo" },
+    "sections": {
+      "overview": "Resumen", "profile": "Mi perfil", "security": "Acceso y seguridad",
+      "appearance": "Apariencia", "integrations": "Integraciones", "whatsapp": "WhatsApp",
+      "make": "Make", "meta-leads": "Meta Lead Ads", "google-sheets": "Google Sheets", "templates": "Plantillas",
+      "quick-replies": "Respuestas rápidas", "fields": "Campos y etiquetas",
+      "deals": "Oportunidades y moneda", "members": "Integrantes del equipo", "api": "Claves de API"
+    },
+    "roles": {
+      "admin": "Administrador", "adminHint": "Gestiona integrantes y toda la cuenta",
+      "agent": "Vendedor", "agentHint": "Usa las funciones comerciales, sin configurar la cuenta",
+      "viewer": "Observador", "viewerHint": "Sólo lectura en toda la aplicación",
+      "owner": "Responsable", "ownerHint": "Control total de la cuenta"
+    },
+    "profile": {
+      "title": "Tu perfil",
+      "description": "Así te ven en la aplicación. Tu foto y nombre aparecen en el encabezado, el menú y para el resto del equipo.",
+      "changePhoto": "Cambiar foto", "uploadPhoto": "Subir foto", "remove": "Quitar",
+      "photoHint": "PNG, JPG, WebP o GIF de hasta 2 MB.", "displayName": "Nombre visible", "email": "Correo electrónico",
+      "emailChangeHint": "Revisá los correos de <bold>{oldEmail}</bold> y <bold>{newEmail}</bold>. Ambos deben confirmar el cambio.",
+      "accountDetails": "Datos de la cuenta", "role": "Rol", "joined": "Se unió", "userId": "ID de usuario",
+      "loading": "Cargando tu perfil…", "saving": "Guardando…", "saveChanges": "Guardar cambios",
+      "unsupportedImage": "Formato de imagen no compatible", "unsupportedImageDesc": "Usá PNG, JPG, WebP o GIF.",
+      "imageTooLarge": "La imagen es demasiado grande", "imageTooLargeDesc": "El máximo es 2 MB.",
+      "nameRequired": "El nombre visible es obligatorio", "invalidEmail": "Ingresá un correo electrónico válido",
+      "uploadFailed": "No se pudo subir: {message}", "saveFailed": "No se pudo guardar: {message}",
+      "profileSaved": "Perfil guardado", "emailChangeFailed": "No se pudo cambiar el correo: {message}",
+      "profileSavedEmailCheck": "Perfil guardado. Revisá tu correo para confirmar el cambio de dirección.",
+      "passwordTitle": "Contraseña", "passwordDesc": "Usá al menos {min} caracteres. Seguirás conectado en este dispositivo.",
+      "currentPassword": "Contraseña actual", "newPassword": "Nueva contraseña", "confirmPassword": "Confirmar nueva contraseña",
+      "updating": "Actualizando…", "updatePassword": "Actualizar contraseña",
+      "cannotChangeNoEmail": "No se puede cambiar la contraseña sin un correo actual",
+      "passwordTooShort": "La contraseña debe tener al menos {min} caracteres",
+      "passwordMismatch": "La nueva contraseña y su confirmación no coinciden",
+      "currentPasswordIncorrect": "La contraseña actual es incorrecta",
+      "passwordUpdateFailed": "No se pudo actualizar la contraseña: {message}", "passwordUpdated": "Contraseña actualizada",
+      "sessionsTitle": "Sesiones activas", "sessionsDesc": "Cerrá la sesión en todos los dispositivos, incluido este, si perdiste un equipo o compartiste tu contraseña.",
+      "signOutAll": "Cerrar todas las sesiones", "signOutConfirmTitle": "¿Cerrar sesión en todos lados?",
+      "signOutConfirmDesc": "Se cerrará la sesión de esta cuenta en todos los dispositivos y tendrás que volver a ingresar.",
+      "cancel": "Cancelar", "signingOut": "Cerrando sesiones…", "signOutEverywhere": "Cerrar sesión en todos lados",
+      "signOutFailed": "No se pudieron cerrar las sesiones: {message}"
+    },
+    "security": { "title": "Acceso y seguridad", "description": "Cambiá tu contraseña y administrá las sesiones para mantener tu cuenta protegida." },
+    "appearance": {
+      "title": "Apariencia", "description": "Elegí el modo y color principal de la aplicación. Se guarda en este dispositivo y cambia al instante.",
+      "mode": "Modo", "useMode": "Usar modo {mode}", "active": "Activo", "accentColor": "Color principal", "useTheme": "Usar tema {name}"
+    }
+  },
+  "Dashboard": {
+    "page": {
+      "title": "Resumen del equipo",
+      "description": "Información actualizada de conversaciones, contactos, oportunidades, campañas y automatizaciones.",
+      "activeConversations": "Conversaciones activas",
+      "newContactsToday": "Contactos nuevos hoy",
+      "openDealsValue": "Valor de oportunidades abiertas",
+      "messagesSentToday": "Mensajes enviados hoy",
+      "newTodayVsYesterday": "nuevas hoy frente a ayer",
+      "vsYesterday": "frente a ayer",
+      "openDeals": "{count} {count, plural, =1 {oportunidad abierta} other {oportunidades abiertas}}",
+      "noChange": "Sin cambios {suffix}"
+    },
+    "quickActions": {
+      "newContact": "Nuevo contacto",
+      "newDeal": "Nueva oportunidad",
+      "newBroadcast": "Nueva campaña",
+      "newAutomation": "Nueva automatización"
+    },
+    "activityFeed": {
+      "title": "Actividad reciente",
+      "viewAll": "Ver todo →",
+      "noActivity": "Todavía no hay actividad",
+      "noActivityHint": "La actividad de mensajes, oportunidades, campañas y automatizaciones aparecerá acá.",
+      "showingOf": "Mostrando {visible} de {totalLoaded}{plus}",
+      "show": "Mostrar",
+      "timeS": "hace {sec} s",
+      "timeM": "hace {min} min",
+      "timeH": "hace {hr} h",
+      "timeD": "hace {day} d"
+    },
+    "conversationsChart": {
+      "title": "Conversaciones en el tiempo",
+      "description": "Volumen diario de mensajes por dirección",
+      "days": "{count} días",
+      "noActivity": "No hubo actividad de mensajes en este período",
+      "noActivityHint": "Enviá o recibí mensajes para comenzar a completar este gráfico.",
+      "incoming": "Recibidos",
+      "outgoing": "Enviados",
+      "tooltipIncoming": "{count} recibidos",
+      "tooltipOutgoing": "{count} enviados",
+      "ariaLabel": "Conversaciones por día"
+    },
+    "pipelineDonut": {
+      "title": "Valor de oportunidades",
+      "description": "Oportunidades abiertas por etapa",
+      "noOpenDeals": "Todavía no hay oportunidades abiertas",
+      "noOpenDealsHint": "Creá oportunidades para ver su distribución por etapas.",
+      "dealCount": "{count} {count, plural, =1 {oportunidad} other {oportunidades}}",
+      "total": "Total",
+      "ariaLabel": "Valor de oportunidades por etapa"
+    },
+    "responseTimeChart": {
+      "title": "Tiempo promedio de primera respuesta",
+      "description": "Minutos hasta responder el primer mensaje pendiente del cliente, por día de la semana",
+      "target": "objetivo: {minutes} min",
+      "thisWeek": "Esta semana:",
+      "lastWeek": "Semana anterior:",
+      "noReplies": "Todavía no hay respuestas registradas",
+      "noRepliesHint": "Este gráfico se completa a medida que respondés mensajes de clientes."
+    },
+    "emptyState": {
+      "title": "Todavía no hay suficientes datos"
+    }
+  },
+  "Inbox": {
+    "page": {
+      "whatsappNotConnected": "WhatsApp® no está conectado. Andá a Configuración para conectar tu cuenta."
+    },
+    "conversationList": {
+      "searchPlaceholder": "Buscar conversaciones...",
+      "filterAll": "Todas",
+      "filterUnread": "Sin leer",
+      "filterOpen": "Abiertas",
+      "filterPending": "Pendientes",
+      "filterClosed": "Cerradas",
+      "tags": "Etiquetas",
+      "company": "Empresa",
+      "allCompanies": "Todas las empresas",
+      "clearAll": "Limpiar filtros",
+      "noConversations": "No se encontraron conversaciones",
+      "noMessagesYet": "Todavía no hay mensajes",
+      "unknown": "Desconocido"
+    },
+    "messageThread": {
+      "backToConversations": "Volver a conversaciones",
+      "hideContactPanel": "Ocultar panel del contacto",
+      "showContactPanel": "Mostrar panel del contacto",
+      "hideContact": "Ocultar contacto",
+      "showContact": "Mostrar contacto",
+      "refresh": "Actualizar",
+      "refreshConversation": "Actualizar conversación",
+      "status": "Estado",
+      "statusOpen": "Abierta",
+      "statusPending": "Pendiente",
+      "statusClosed": "Cerrada",
+      "assign": "Asignar",
+      "assigned": "Asignada",
+      "unassign": "Quitar asignación",
+      "noTeammates": "No hay integrantes disponibles",
+      "me": " (yo)",
+      "noMessagesYet": "Todavía no hay mensajes",
+      "sendTemplateHint": "Enviá una plantilla para iniciar la conversación",
+      "selectConversation": "Seleccioná una conversación",
+      "selectConversationHint": "Elegí una conversación de la izquierda para comenzar a responder",
+      "today": "Hoy",
+      "yesterday": "Ayer"
+    },
+    "sessionTimer": {
+      "expired": "Vencida",
+      "xhRemaining": "Quedan {hours} h",
+      "xmRemaining": "Quedan {minutes} min",
+      "noCustomerMessages": "No hay mensajes del cliente"
+    },
+    "composer": {
+      "draftHint": "Tocá ✨ para preparar una respuesta con IA; podés editarla antes de enviarla",
+      "sessionExpiredHint": "Venció la sesión de 24 horas. Usá una plantilla para retomar el contacto.",
+      "templates": "Plantillas",
+      "readOnlyPlaceholder": "Sólo lectura: tu rol puede consultar, pero no responder",
+      "sessionExpiredPlaceholder": "Sesión vencida: usá una plantilla",
+      "typeMessagePlaceholder": "Escribí un mensaje... (Mayús+Enter para una nueva línea)",
+      "readOnlyTitle": "Sólo lectura: tu rol no puede enviar mensajes",
+      "recording": "Grabando… {current} / {max}",
+      "cancel": "Cancelar",
+      "stopAndAttach": "Detener y adjuntar",
+      "attachMedia": "Adjuntar archivo",
+      "photo": "Foto",
+      "video": "Video",
+      "document": "Documento",
+      "voiceNote": "Mensaje de voz",
+      "sendTemplate": "Enviar plantilla",
+      "draftWithAI": "Preparar respuesta con IA",
+      "addCaption": "Agregar descripción…",
+      "removeAttachment": "Quitar archivo adjunto",
+      "moreActions": "Más",
+      "interactiveMessage": "Mensaje interactivo",
+      "quickReplies": "Respuestas rápidas",
+      "quickRepliesEmpty": "Todavía no hay respuestas rápidas. Podés agregarlas en Configuración → Respuestas rápidas.",
+      "saveAsQuickReply": "Guardar como respuesta rápida",
+      "send": "Enviar",
+      "quickReplyNamePrompt": "Nombre de esta respuesta rápida:",
+      "quickReplySaved": "Se guardó como respuesta rápida.",
+      "quickReplySaveError": "No se pudo guardar la respuesta rápida."
+    },
+    "bubble": {
+      "photo": "Foto", "video": "Video", "audio": "Audio",
+      "unavailable": "{label} no disponible", "document": "Documento",
+      "locationShared": "Ubicación compartida", "template": "Plantilla",
+      "buttonReply": "Respuesta de botón", "interactiveReply": "[Respuesta interactiva]",
+      "unsupported": "[Tipo de mensaje no compatible]", "aiBadge": "IA",
+      "aiBadgeTitle": "Enviado automáticamente por el asistente de IA",
+      "download": "Descargar", "downloadFailed": "No se pudo descargar el archivo adjunto",
+      "viewImage": "Ver imagen", "expandVideo": "Ampliar video", "imageAlt": "Imagen compartida"
+    },
+    "mediaViewer": {
+      "counter": "{index} de {total}", "previous": "Anterior", "next": "Siguiente",
+      "zoomIn": "Ver tamaño completo", "zoomOut": "Ajustar a la pantalla",
+      "openOriginal": "Abrir original", "download": "Descargar",
+      "downloadFailed": "No se pudo descargar el archivo adjunto",
+      "failed": "Este archivo ya no está disponible", "imageAlt": "Imagen compartida", "you": "Vos"
+    },
+    "actions": {
+      "reply": "Responder", "copyText": "Copiar texto", "delete": "Eliminar", "react": "Reaccionar",
+      "reactWith": "Reaccionar con {emoji}", "nothingToCopy": "No hay nada para copiar",
+      "copied": "Copiado", "copyFailed": "No se pudo copiar"
+    },
+    "replyQuote": {
+      "photo": "[Foto]", "video": "[Video]", "document": "[Documento]", "audio": "[Audio]",
+      "voiceMessage": "[Mensaje de voz]", "location": "[Ubicación]", "template": "[Plantilla]",
+      "message": "[Mensaje]", "cancelReply": "Cancelar respuesta"
+    },
+    "templatePicker": {
+      "sendTemplate": "Enviar plantilla",
+      "fillPlaceholders": "Completá los campos para generar la plantilla. Meta requiere que todas las variables tengan un valor.",
+      "pickTemplate": "Elegí una plantilla de WhatsApp aprobada para enviarle a este contacto.",
+      "noApprovedTemplates": "No hay plantillas aprobadas",
+      "noApprovedTemplatesHint": "Aprobá una plantilla en Meta WhatsApp Manager y luego sincronizala desde Configuración → Plantillas.",
+      "preview": "Vista previa", "headerValuePlaceholder": "Valor de la variable del encabezado",
+      "bodyValuePlaceholder": "Valor para {val}", "urlSuffixValuePlaceholder": "Sufijo de la URL",
+      "finalUrl": "URL final: {url}", "back": "Volver", "cancel": "Cancelar", "send": "Enviar plantilla"
+    },
+    "sidebar": {
+      "contactInfo": "Datos del contacto", "tags": "Etiquetas", "notes": "Notas",
+      "deals": "Oportunidades", "noTags": "Sin etiquetas", "noDeals": "Sin oportunidades",
+      "addNotePlaceholder": "Agregar una nota..."
+    },
+    "aiBanner": {
+      "pausedTitle": "El asistente de IA está pausado en esta conversación",
+      "activeText": "El asistente de IA está respondiendo automáticamente",
+      "takeOver": "Tomar conversación", "resume": "Reanudar IA",
+      "tookOver": "Ahora estás a cargo de esta conversación.", "resumed": "Se reanudó la IA.",
+      "updateError": "No se pudo actualizar el asistente de IA.", "networkError": "No se pudo conectar con el servidor."
+    }
+  }
+}

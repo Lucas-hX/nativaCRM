@@ -1,0 +1,56 @@
+name: Solicitud de funcionalidad
+description: Propone una capacidad nueva o una mejora relevante para nativaCRM.
+title: "[feat] "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Explica primero el problema comercial o de usuario. No incluyas
+        credenciales, datos personales, payloads reales ni información de clientes.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema
+      description: ¿Quién tiene el problema, qué intenta hacer y qué ocurre actualmente?
+      placeholder: El vendedor necesita registrar un resultado y un próximo paso sin abandonar la ficha del lead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Resultado esperado
+      description: Describe el resultado desde la perspectiva del usuario, no una implementación específica.
+    validations:
+      required: true
+
+  - type: textarea
+    id: rules
+    attributes:
+      label: Reglas y casos límite
+      description: Permisos, tenancy, estados, duplicados, automatizaciones o condiciones conocidas.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: user_role
+    attributes:
+      label: Usuario principal
+      options:
+        - Vendedor (agent)
+        - Supervisor o administrador
+        - Owner
+        - Integración o proceso automático
+        - Varios roles
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Criterios de aceptación
+      description: Lista de comportamientos observables que permitirían considerar terminada la mejora.
+    validations:
+      required: true

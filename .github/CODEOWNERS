@@ -1,0 +1,4 @@
+# Default owner for nativaCRM. Branch protection requires CI but does not
+# require an approving review while the repository has a single maintainer.
+
+* @Lucas-hX
