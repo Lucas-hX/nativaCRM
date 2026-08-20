@@ -418,7 +418,7 @@ export default function LeadsPage() {
           Actualizar
         </Button>
       </div>
-      <div className="flex gap-2 overflow-x-auto pb-1">
+      <div className="flex max-w-full gap-2 overflow-x-auto overscroll-x-contain pb-1 pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {available.map((v) => (
           <button
             key={v.key}

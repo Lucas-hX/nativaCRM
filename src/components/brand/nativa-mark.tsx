@@ -28,3 +28,23 @@ export function NativaMark({
     />
   );
 }
+
+/** Approved reduced wordmark for navigation widths below 120px. */
+export function NativaReducedMark({ className }: { className?: string }) {
+  return (
+    <span
+      className={cn("relative block aspect-[967/445] overflow-hidden", className)}
+      role="img"
+      aria-label="Nativa"
+    >
+      <Image
+        src="/brand/nativa-logo-dark.png"
+        alt=""
+        aria-hidden
+        width={967}
+        height={577}
+        className="absolute inset-x-0 top-[-29.7%] h-auto w-full"
+      />
+    </span>
+  );
+}

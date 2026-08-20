@@ -110,7 +110,7 @@ export class SupabaseLeadRepository implements LeadRepository {
     const { data, error } = await this.db
       .from('leads')
       .select(
-        `${LEAD_FIELDS}, field_values:lead_field_values(id,field_definition_id,value), activities:lead_activities(id, channel, result, attempt_number, note, reason_code, metadata, actor_user_id, occurred_at, created_at), duplicate_matches:lead_duplicate_matches(id, matched_lead_id, matched_contact_id, match_type, confidence, reviewed_at, created_at)`
+        `${LEAD_FIELDS}, field_values:lead_field_values(id,field_definition_id,value), activities:lead_activities(id, channel, result, attempt_number, note, reason_code, metadata, actor_user_id, occurred_at, created_at), duplicate_matches:lead_duplicate_matches!lead_duplicate_matches_lead_id_fkey(id, matched_lead_id, matched_contact_id, match_type, confidence, reviewed_at, created_at)`
       )
       .eq('account_id', accountId)
       .eq('id', leadId)

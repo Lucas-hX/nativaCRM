@@ -30,7 +30,7 @@ import {
   Zap,
 } from "lucide-react";
 import type { AccountRole } from "@/lib/auth/roles";
-import { NativaMark } from "@/components/brand/nativa-mark";
+import { NativaReducedMark } from "@/components/brand/nativa-mark";
 
 // Per-role chip metadata used in the sidebar's account strip + the
 // Members tab roster. Keeping this near both consumers in a single
@@ -202,8 +202,8 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
         {/* Logo row. On mobile we put a close button here; on desktop the
             close button is hidden since the sidebar is always-visible. */}
         <div className="flex h-[4.5rem] shrink-0 items-center justify-between gap-2 border-b border-sidebar-border px-4">
-          <Link href={accountRole === "owner" || accountRole === "admin" ? "/dashboard" : "/leads"} className="block w-[132px]" aria-label={t("title")}>
-            <NativaMark priority />
+          <Link href={accountRole === "owner" || accountRole === "admin" ? "/dashboard" : "/leads"} className="block w-[104px]" aria-label={t("title")}>
+            <NativaReducedMark />
           </Link>
           <button
             type="button"
