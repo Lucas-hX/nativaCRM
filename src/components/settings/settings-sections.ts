@@ -56,24 +56,113 @@ export interface SectionMeta {
 }
 
 export const SECTION_META: Record<SettingsSection, SectionMeta> = {
-  overview: { id: 'overview', label: 'Overview', icon: LayoutGrid, group: 'top' },
-  profile: { id: 'profile', label: 'Your profile', icon: User, group: 'account' },
-  security: { id: 'security', label: 'Login & security', icon: Shield, group: 'account' },
-  appearance: { id: 'appearance', label: 'Appearance', icon: Palette, group: 'account' },
-  integrations: { id: 'integrations', label: 'Integrations', icon: PlugZap, group: 'workspace', adminOnly: true },
-  whatsapp: { id: 'whatsapp', label: 'WhatsApp', icon: PlugZap, group: 'workspace' },
-  make: { id: 'make', label: 'Make', icon: Workflow, group: 'workspace', adminOnly: true },
-  'meta-leads': { id: 'meta-leads', label: 'Meta Lead Ads', icon: Sparkles, group: 'workspace', adminOnly: true },
-  'google-sheets': { id: 'google-sheets', label: 'Google Sheets', icon: Sheet, group: 'workspace', adminOnly: true },
-  templates: { id: 'templates', label: 'Templates', icon: FileText, group: 'workspace' },
-  'quick-replies': { id: 'quick-replies', label: 'Quick replies', icon: Zap, group: 'workspace' },
-  fields: { id: 'fields', label: 'Fields & tags', icon: Tags, group: 'workspace' },
-  deals: { id: 'deals', label: 'Deals & currency', icon: Coins, group: 'workspace' },
-  members: { id: 'members', label: 'Team members', icon: UsersRound, group: 'workspace' },
-  api: { id: 'api', label: 'API keys', icon: KeyRound, group: 'workspace' },
+  overview: {
+    id: 'overview',
+    label: 'Overview',
+    icon: LayoutGrid,
+    group: 'top',
+  },
+  profile: {
+    id: 'profile',
+    label: 'Your profile',
+    icon: User,
+    group: 'account',
+  },
+  security: {
+    id: 'security',
+    label: 'Login & security',
+    icon: Shield,
+    group: 'account',
+  },
+  appearance: {
+    id: 'appearance',
+    label: 'Appearance',
+    icon: Palette,
+    group: 'account',
+  },
+  integrations: {
+    id: 'integrations',
+    label: 'Integrations',
+    icon: PlugZap,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  whatsapp: {
+    id: 'whatsapp',
+    label: 'WhatsApp',
+    icon: PlugZap,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  make: {
+    id: 'make',
+    label: 'Make',
+    icon: Workflow,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  'meta-leads': {
+    id: 'meta-leads',
+    label: 'Meta Lead Ads',
+    icon: Sparkles,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  'google-sheets': {
+    id: 'google-sheets',
+    label: 'Google Sheets',
+    icon: Sheet,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  templates: {
+    id: 'templates',
+    label: 'Templates',
+    icon: FileText,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  'quick-replies': {
+    id: 'quick-replies',
+    label: 'Quick replies',
+    icon: Zap,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  fields: {
+    id: 'fields',
+    label: 'Fields & tags',
+    icon: Tags,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  deals: {
+    id: 'deals',
+    label: 'Deals & currency',
+    icon: Coins,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  members: {
+    id: 'members',
+    label: 'Team members',
+    icon: UsersRound,
+    group: 'workspace',
+    adminOnly: true,
+  },
+  api: {
+    id: 'api',
+    label: 'API keys',
+    icon: KeyRound,
+    group: 'workspace',
+    adminOnly: true,
+  },
 };
 
-export const RAIL_GROUPS: { label: string | null; group: SectionMeta['group'] }[] = [
+export const RAIL_GROUPS: {
+  label: string | null;
+  group: SectionMeta['group'];
+}[] = [
   { label: null, group: 'top' },
   { label: 'Account', group: 'account' },
   { label: 'Workspace', group: 'workspace' },
