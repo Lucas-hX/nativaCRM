@@ -1,42 +1,25 @@
-<!--
-Heads up: this is a template, not a collaborative product. Most
-changes belong in your fork. See CONTRIBUTING.md for which kinds of
-upstream PRs tend to land (security, correctness, docs) vs. which
-belong in a fork (new features, stack swaps, opinionated refactors).
-If you haven't opened an issue yet for a non-trivial change, consider
-doing that first to check alignment.
+## Resumen
 
-Keep this short and specific. The commit message is where the "why"
-lives; this is where the reviewer gets the "what" and "how to try it".
--->
+<!-- Qué problema resuelve y por qué corresponde hacerlo ahora. -->
 
-## Summary
+## Cambios
 
-<!-- One or two sentences. What does this PR do? -->
+<!-- Lista breve de cambios funcionales, técnicos y de datos. -->
 
-## What changed
+## Verificación
 
-<!-- Bullet list of the actual changes. Link file paths when useful. -->
+- [ ] `npm run typecheck`
+- [ ] `npm run lint` sin errores nuevos
+- [ ] `npm test`
+- [ ] `npm run build`
+- [ ] Migraciones y RLS verificadas, o no aplica
+- [ ] Probado en móvil/escritorio, o no aplica
+- [ ] No se incluyeron secretos, datos personales, `.env` ni backups
 
-## Test plan
+## Despliegue y rollback
 
-<!--
-How did you verify this works? How should the reviewer verify it?
-Tick the boxes as you go.
--->
+<!-- Migraciones, variables, feature flags, orden de despliegue y forma de revertir. Escribir “No aplica” cuando corresponda. -->
 
-- [ ] `npm run typecheck` clean.
-- [ ] `npm run lint` — no new errors beyond the pre-existing backlog.
-- [ ] `npm run build` succeeds.
-- [ ] Feature / fix manually exercised in the browser (or the reason it can't be).
+## Evidencia y alcance pendiente
 
-## Related
-
-<!-- Link the issue this closes, or "Part of #N" for multi-PR work. -->
-
-<!--
-Heads up:
-- Security issues: do not disclose here; see .github/SECURITY.md.
-- New deps: please justify briefly in the commit message or PR body.
-- Runtime behaviour changes affecting forkers: update docs/*.
--->
+<!-- Capturas sanitizadas, resultados de prueba, issue relacionado y cualquier verificación omitida. -->

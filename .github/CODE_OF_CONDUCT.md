@@ -1,4 +1,4 @@
-# Code of Conduct
+# Código de conducta
 
 This project adopts the **[Contributor Covenant, version 2.1][covenant]**.
 
@@ -6,13 +6,11 @@ By participating in this project — filing an issue, opening a PR, commenting
 on one, or interacting in any other community space — you agree to uphold
 that standard.
 
-## Reporting
+## Reportes
 
-If you witness or experience behaviour that violates the Code, please
-report it privately to the project maintainer:
-
-- Email: **a.donauskas@hostinger.com** with `[CRM template conduct]` in
-  the subject.
+If you witness or experience behaviour that violates the Code, contact
+the project maintainer [@Lucas-hX](https://github.com/Lucas-hX). Do not
+publish personal or sensitive details in an issue.
 
 Reports are handled confidentially. Expect an acknowledgement within
 72 hours and a decision on next steps within a week.
