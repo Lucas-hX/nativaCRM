@@ -418,7 +418,7 @@ export default function LeadsPage() {
           Actualizar
         </Button>
       </div>
-      <div className="flex gap-2 overflow-x-auto pb-1">
+      <div className="flex max-w-full gap-2 overflow-x-auto overscroll-x-contain pb-1 pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {available.map((v) => (
           <button
             key={v.key}
@@ -436,7 +436,7 @@ export default function LeadsPage() {
       {nextLead && workspace && (
         <section
           aria-labelledby="next-action-title"
-          className="from-primary-soft to-card ring-primary-soft-2 overflow-hidden rounded-2xl bg-gradient-to-br p-5 ring-1 sm:p-6"
+          className="overflow-hidden border border-primary/35 border-l-[6px] border-l-primary bg-card p-5 sm:p-6"
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">

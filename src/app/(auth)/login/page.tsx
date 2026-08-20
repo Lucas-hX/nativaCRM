@@ -16,6 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { MessageSquare, UsersRound } from "lucide-react";
+import { NativaMark } from "@/components/brand/nativa-mark";
 
 // `useSearchParams` opts the component out of static prerendering
 // unless it sits under a Suspense boundary. We split the form into
@@ -75,20 +76,36 @@ function LoginPageInner() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-md border-border bg-card">
-        <CardHeader className="items-center text-center">
-          <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+    <div className="grid min-h-screen bg-background lg:grid-cols-[minmax(20rem,0.9fr)_minmax(28rem,1.1fr)]">
+      <section className="hidden flex-col justify-between bg-[#1a1830] p-12 text-[#f5f0e8] lg:flex">
+        <NativaMark className="w-[210px]" priority />
+        <div className="max-w-xl">
+          <p className="nativa-eyebrow mb-5">OPERACIÓN COMERCIAL</p>
+          <p className="font-heading text-5xl font-semibold uppercase leading-[0.96] tracking-[-0.04em]">
+            Menos ruido.<br />Más próximas<br /><span className="text-primary">acciones.</span>
+          </p>
+          <div className="nativa-rule mt-8" />
+        </div>
+        <p className="max-w-sm text-sm leading-6 text-[#f5f0e8]/60">
+          Leads, conversaciones y seguimiento en un solo lugar.
+        </p>
+      </section>
+
+      <section className="flex items-center justify-center px-4 py-10 sm:px-8">
+      <Card className="w-full max-w-md bg-card">
+        <CardHeader className="text-left">
+          <NativaMark className="mb-8 w-[150px] lg:hidden" priority />
+          <div className="mb-3 flex h-12 w-12 items-center justify-center border border-primary bg-primary text-primary-foreground">
             {inviteToken ? (
               <UsersRound className="h-6 w-6 text-primary" />
             ) : (
               <MessageSquare className="h-6 w-6 text-primary" />
             )}
           </div>
-          <CardTitle className="text-xl text-foreground">
+          <CardTitle className="text-2xl text-foreground">
             {inviteToken ? t('titleAccept') : t('titleWelcome')}
           </CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardDescription className="max-w-sm text-muted-foreground">
             {inviteToken
               ? t('descAccept')
               : t('descWelcome')}
@@ -97,7 +114,7 @@ function LoginPageInner() {
         <CardContent>
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             {error && (
-              <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+              <div className="border-l-4 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive">
                 {error}
               </div>
             )}
@@ -149,7 +166,7 @@ function LoginPageInner() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
+          <p className="mt-6 text-left text-sm text-muted-foreground">
             {t('noAccount')}{" "}
             <Link
               href={
@@ -164,6 +181,7 @@ function LoginPageInner() {
           </p>
         </CardContent>
       </Card>
+      </section>
     </div>
   );
 }

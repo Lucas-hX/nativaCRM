@@ -3,7 +3,7 @@
 import { Check, Moon, Palette, SunMoon, Sun } from "lucide-react";
 
 import { useTheme } from "@/hooks/use-theme";
-import { MODES, THEMES, type Mode, type ThemeId } from "@/lib/themes";
+import { MODES, THEMES, type Mode } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { SettingsPanelHead } from "./settings-panel-head";
@@ -21,7 +21,7 @@ import { SettingsPanelHead } from "./settings-panel-head";
  * loads.
  */
 export function AppearancePanel() {
-  const { theme, setTheme, mode, setMode } = useTheme();
+  const { mode, setMode } = useTheme();
   const t = useTranslations("Settings.appearance");
 
   return (
@@ -59,18 +59,22 @@ export function AppearancePanel() {
           {t("accentColor")}
         </h3>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {THEMES.map((tObj) => (
-            <ThemeCard
-              key={tObj.id}
-              id={tObj.id}
-              name={tObj.name}
-              tagline={tObj.tagline}
-              swatch={tObj.swatch}
-              isActive={tObj.id === theme}
-              onPick={() => setTheme(tObj.id)}
-            />
-          ))}
+        <div className="max-w-md border border-border bg-card p-4">
+          <div className="flex items-center gap-4">
+            <span className="grid size-12 shrink-0 grid-cols-2 overflow-hidden border border-border" aria-hidden>
+              <span className="bg-[#1a1830]" />
+              <span className="bg-[#ff6b00]" />
+              <span className="bg-[#f5f0e8]" />
+              <span className="bg-[#3a3752]" />
+            </span>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[-0.02em] text-foreground">{THEMES[0].name}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{THEMES[0].tagline}</p>
+            </div>
+            <span className="ml-auto inline-flex items-center gap-1 border border-primary/40 bg-primary/10 px-2 py-1 text-[11px] font-medium uppercase tracking-wider text-foreground">
+              <Check className="size-3 text-primary" /> {t("active")}
+            </span>
+          </div>
         </div>
       </div>
     </section>
@@ -118,71 +122,6 @@ function ModeCard({
           {t("active")}
         </span>
       )}
-    </button>
-  );
-}
-
-function ThemeCard({
-  id,
-  name,
-  tagline,
-  swatch,
-  isActive,
-  onPick,
-}: {
-  id: ThemeId;
-  name: string;
-  tagline: string;
-  swatch: string;
-  isActive: boolean;
-  onPick: () => void;
-}) {
-  const t = useTranslations("Settings.appearance");
-  return (
-    <button
-      type="button"
-      onClick={onPick}
-      aria-pressed={isActive}
-      aria-label={t("useTheme", { name })}
-      className={cn(
-        "flex flex-col gap-3 rounded-lg border bg-card p-4 text-left transition-colors",
-        isActive
-          ? "border-primary/60 ring-2 ring-primary/40"
-          : "border-border hover:border-border hover:bg-muted/40",
-      )}
-    >
-      <div className="flex items-center justify-between">
-        <span
-          aria-hidden
-          className="h-8 w-8 shrink-0 rounded-full"
-          style={{
-            background: swatch,
-            boxShadow: "inset 0 0 0 1px oklch(1 0 0 / 0.15)",
-          }}
-        />
-        {isActive && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2 py-0.5 text-[11px] font-medium text-primary">
-            <Check className="h-3 w-3" />
-            {t("active")}
-          </span>
-        )}
-      </div>
-      <div>
-        <div className="text-sm font-semibold text-foreground">{name}</div>
-        <div className="mt-1 text-xs leading-relaxed text-muted-foreground">
-          {tagline}
-        </div>
-      </div>
-      <div
-        className="mt-1 flex h-2 overflow-hidden rounded-full"
-        aria-hidden
-      >
-        <span className="flex-1" style={{ background: swatch }} />
-        <span className="w-3 bg-muted-foreground/60" />
-        <span className="w-3 bg-muted" />
-        <span className="w-3 bg-card" />
-      </div>
-      <span className="sr-only">Theme id: {id}</span>
     </button>
   );
 }

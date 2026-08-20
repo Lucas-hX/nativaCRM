@@ -1259,6 +1259,9 @@
       "tagsCount": "{count} {count, plural, =1 {tag} other {tags}}",
       "fieldsCount": "{count} custom {count, plural, =1 {field} other {fields}}",
       "appearance": "{mode} mode · {theme} accent",
+      "darkMode": "dark",
+      "lightMode": "light",
+      "accountCurrency": "{code} · account currency",
       "yourAccount": "Your account",
       "loading": "Loading…"
     },

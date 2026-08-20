@@ -8,7 +8,6 @@ import { createClient } from '@/lib/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
 import { useTheme } from '@/hooks/use-theme';
 import { THEMES } from '@/lib/themes';
-import { CURRENCIES } from '@/lib/currency';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -173,11 +172,8 @@ export function SettingsOverview({
   const roleMeta = accountRole ? ROLE_META[accountRole] : null;
   const RoleIcon = roleMeta?.icon;
 
-  const currencyLabel =
-    CURRENCIES.find((c) => c.code === defaultCurrency)?.label ??
-    defaultCurrency;
   const themeName = THEMES.find((t) => t.id === theme)?.name ?? theme;
-  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+  const modeLabel = mode === 'dark' ? t('darkMode') : t('lightMode');
 
   // Per-tile loading + subtitle. `null` counts render as a graceful
   // fallback so a single failed query never blanks a tile.
@@ -228,7 +224,7 @@ export function SettingsOverview({
     {
       section: 'deals',
       loading: false,
-      subtitle: `${defaultCurrency} — ${currencyLabel}`,
+      subtitle: t('accountCurrency', { code: defaultCurrency }),
     },
     {
       section: 'fields',
@@ -246,7 +242,7 @@ export function SettingsOverview({
     {
       section: 'appearance',
       loading: false,
-      subtitle: t('appearance', { mode: cap(mode), theme: themeName }),
+      subtitle: t('appearance', { mode: modeLabel, theme: themeName }),
     },
   ];
   const tiles = canManageMembers
@@ -255,7 +251,7 @@ export function SettingsOverview({
         {
           section: 'appearance' as const,
           loading: false,
-          subtitle: t('appearance', { mode: cap(mode), theme: themeName }),
+          subtitle: t('appearance', { mode: modeLabel, theme: themeName }),
         },
       ];
 

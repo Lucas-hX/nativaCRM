@@ -120,8 +120,28 @@
     },
     "security": { "title": "Acceso y seguridad", "description": "Cambiá tu contraseña y administrá las sesiones para mantener tu cuenta protegida." },
     "appearance": {
-      "title": "Apariencia", "description": "Elegí el modo y color principal de la aplicación. Se guarda en este dispositivo y cambia al instante.",
+      "title": "Apariencia", "description": "Elegí el modo de lectura. La identidad Nativa se mantiene en toda la aplicación.",
       "mode": "Modo", "useMode": "Usar modo {mode}", "active": "Activo", "accentColor": "Color principal", "useTheme": "Usar tema {name}"
+    },
+    "overview": {
+      "notSetup": "Todavía no configurado",
+      "connected": "Conectado",
+      "needsReconnecting": "Necesita reconexión",
+      "viewTeamMembers": "Ver integrantes del equipo",
+      "membersCount": "{count} {count, plural, =1 {integrante} other {integrantes}}",
+      "pendingInvites": "{count} {count, plural, =1 {invitación pendiente} other {invitaciones pendientes}}",
+      "manageTemplates": "Administrar plantillas de mensajes",
+      "templatesCount": "{count} {count, plural, =1 {plantilla} other {plantillas}}",
+      "pendingReview": "{count} pendientes de revisión",
+      "tagsAndFields": "Etiquetas y campos personalizados",
+      "tagsCount": "{count} {count, plural, =1 {etiqueta} other {etiquetas}}",
+      "fieldsCount": "{count} {count, plural, =1 {campo personalizado} other {campos personalizados}}",
+      "appearance": "Modo {mode} · identidad {theme}",
+      "darkMode": "oscuro",
+      "lightMode": "claro",
+      "accountCurrency": "{code} · moneda de la cuenta",
+      "yourAccount": "Tu cuenta",
+      "loading": "Cargando…"
     }
   },
   "Dashboard": {

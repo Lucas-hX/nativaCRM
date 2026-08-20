@@ -1259,6 +1259,9 @@
       "tagsCount": "태그 {count}개",
       "fieldsCount": "커스텀 필드 {count}개",
       "appearance": "{mode} 모드 · {theme} 색상",
+      "darkMode": "다크",
+      "lightMode": "라이트",
+      "accountCurrency": "{code} · 계정 통화",
       "yourAccount": "내 계정",
       "loading": "불러오는 중…"
     },
