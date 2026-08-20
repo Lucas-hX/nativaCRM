@@ -24,7 +24,7 @@ La base desplegada incluye autenticación y roles, aislamiento por cuenta median
 
 El proyecto continúa en desarrollo. Antes de utilizar información comercial irremplazable deben completarse backups externos con restauración probada, SMTP productivo, monitoreo, cierre del registro público y rotación de credenciales.
 
-Consulta [el estado del MVP](./docs/estado-actual-y-pendientes-mvp.md), [el contrato de Leads](./docs/leads-api.md) y [el procedimiento de despliegue y rollback](./docs/deployment-rollback.md).
+Consulta [el estado del MVP](./docs/estado-actual-y-pendientes-mvp.md), [el contrato de Leads](./docs/leads-api.md), [el flujo de trabajo Git](./docs/git-workflow.md) y [el procedimiento de despliegue y rollback](./docs/deployment-rollback.md).
 
 ## Arquitectura
 
