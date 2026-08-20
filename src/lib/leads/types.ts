@@ -1,32 +1,24 @@
 /** Database contract introduced by migrations 040 and 041. */
 
 export type LeadStatus =
-  | "new"
-  | "in_progress"
-  | "follow_up"
-  | "won"
-  | "discarded";
+  'new' | 'in_progress' | 'follow_up' | 'won' | 'discarded';
 
-export type LeadPriority = "low" | "normal" | "high" | "urgent";
+export type LeadPriority = 'low' | 'normal' | 'high' | 'urgent';
 
 export type LeadActivityChannel =
-  | "whatsapp"
-  | "phone"
-  | "email"
-  | "other"
-  | "system";
+  'whatsapp' | 'phone' | 'email' | 'other' | 'system';
 
 export type LeadActivityResult =
-  | "no_answer"
-  | "contacted"
-  | "qualified"
-  | "won"
-  | "discarded"
-  | "rescheduled"
-  | "note"
-  | "assigned";
+  | 'no_answer'
+  | 'contacted'
+  | 'qualified'
+  | 'won'
+  | 'discarded'
+  | 'rescheduled'
+  | 'note'
+  | 'assigned';
 
-export type LeadTaskStatus = "pending" | "completed" | "cancelled";
+export type LeadTaskStatus = 'pending' | 'completed' | 'cancelled';
 
 export interface AccountSettings {
   account_id: string;
@@ -55,6 +47,8 @@ export interface Lead {
   form_name: string | null;
   company: string | null;
   plan: string | null;
+  opportunity_type_id: string | null;
+  catalog_item_id: string | null;
   status: LeadStatus;
   priority: LeadPriority;
   assigned_to_user_id: string | null;
@@ -125,6 +119,9 @@ export interface CreateLeadInput {
   company?: string;
   plan?: string;
   priority?: LeadPriority;
+  opportunityTypeId?: string;
+  catalogItemId?: string;
+  fieldValues?: Record<string, unknown>;
 }
 
 export interface RecordLeadResultInput {

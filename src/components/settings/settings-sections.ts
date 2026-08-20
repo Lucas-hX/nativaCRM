@@ -1,4 +1,5 @@
 import {
+  BriefcaseBusiness,
   Coins,
   FileText,
   KeyRound,
@@ -29,6 +30,7 @@ export const SETTINGS_SECTIONS = [
   'profile',
   'security',
   'appearance',
+  'commercial',
   'integrations',
   'whatsapp',
   'make',
@@ -79,6 +81,13 @@ export const SECTION_META: Record<SettingsSection, SectionMeta> = {
     label: 'Appearance',
     icon: Palette,
     group: 'account',
+  },
+  commercial: {
+    id: 'commercial',
+    label: 'Commercial model',
+    icon: BriefcaseBusiness,
+    group: 'workspace',
+    adminOnly: true,
   },
   integrations: {
     id: 'integrations',
