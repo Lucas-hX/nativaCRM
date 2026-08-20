@@ -6,9 +6,12 @@ import {
   Palette,
   PlugZap,
   Shield,
+  Sheet,
+  Sparkles,
   Tags,
   User,
   UsersRound,
+  Workflow,
   Zap,
   type LucideIcon,
 } from 'lucide-react';
@@ -26,7 +29,11 @@ export const SETTINGS_SECTIONS = [
   'profile',
   'security',
   'appearance',
+  'integrations',
   'whatsapp',
+  'make',
+  'meta-leads',
+  'google-sheets',
   'templates',
   'quick-replies',
   'fields',
@@ -45,6 +52,7 @@ export interface SectionMeta {
   label: string;
   icon: LucideIcon;
   group: 'top' | 'account' | 'workspace';
+  adminOnly?: boolean;
 }
 
 export const SECTION_META: Record<SettingsSection, SectionMeta> = {
@@ -52,7 +60,11 @@ export const SECTION_META: Record<SettingsSection, SectionMeta> = {
   profile: { id: 'profile', label: 'Your profile', icon: User, group: 'account' },
   security: { id: 'security', label: 'Login & security', icon: Shield, group: 'account' },
   appearance: { id: 'appearance', label: 'Appearance', icon: Palette, group: 'account' },
+  integrations: { id: 'integrations', label: 'Integrations', icon: PlugZap, group: 'workspace', adminOnly: true },
   whatsapp: { id: 'whatsapp', label: 'WhatsApp', icon: PlugZap, group: 'workspace' },
+  make: { id: 'make', label: 'Make', icon: Workflow, group: 'workspace', adminOnly: true },
+  'meta-leads': { id: 'meta-leads', label: 'Meta Lead Ads', icon: Sparkles, group: 'workspace', adminOnly: true },
+  'google-sheets': { id: 'google-sheets', label: 'Google Sheets', icon: Sheet, group: 'workspace', adminOnly: true },
   templates: { id: 'templates', label: 'Templates', icon: FileText, group: 'workspace' },
   'quick-replies': { id: 'quick-replies', label: 'Quick replies', icon: Zap, group: 'workspace' },
   fields: { id: 'fields', label: 'Fields & tags', icon: Tags, group: 'workspace' },

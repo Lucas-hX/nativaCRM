@@ -10,11 +10,14 @@ import { useUnreadNotifications } from "@/hooks/use-unread-notifications";
 import {
   Bell,
   Bot,
+  BriefcaseBusiness,
   Crown,
   GitBranch,
   LayoutDashboard,
+  ListChecks,
   LogOut,
   MessageSquare,
+  PlugZap,
   Radio,
   Settings,
   Shield,
@@ -87,18 +90,22 @@ interface NavItem {
    * Purely informational — doesn't affect routing or access.
    */
   beta?: boolean;
+  adminOnly?: boolean;
 }
 
 const navItems: NavItem[] = [
-  { href: "/dashboard", labelKey: "dashboard", icon: LayoutDashboard },
+  { href: "/leads", labelKey: "myWork", icon: BriefcaseBusiness },
   { href: "/inbox", labelKey: "inbox", icon: MessageSquare },
   { href: "/notifications", labelKey: "notifications", icon: Bell },
-  { href: "/contacts", labelKey: "contacts", icon: Users },
-  { href: "/pipelines", labelKey: "pipelines", icon: GitBranch },
-  { href: "/broadcasts", labelKey: "broadcasts", icon: Radio },
-  { href: "/automations", labelKey: "automations", icon: Zap },
-  { href: "/flows", labelKey: "flows", icon: Workflow, beta: true },
-  { href: "/agents", labelKey: "aiAgents", icon: Bot },
+  { href: "/dashboard", labelKey: "teamSummary", icon: LayoutDashboard, adminOnly: true },
+  { href: "/lead-operations", labelKey: "leadOperations", icon: ListChecks, adminOnly: true },
+  { href: "/settings?tab=integrations", labelKey: "integrations", icon: PlugZap, adminOnly: true },
+  { href: "/contacts", labelKey: "contacts", icon: Users, adminOnly: true },
+  { href: "/pipelines", labelKey: "pipelines", icon: GitBranch, adminOnly: true },
+  { href: "/broadcasts", labelKey: "broadcasts", icon: Radio, adminOnly: true },
+  { href: "/automations", labelKey: "automations", icon: Zap, adminOnly: true },
+  { href: "/flows", labelKey: "flows", icon: Workflow, beta: true, adminOnly: true },
+  { href: "/agents", labelKey: "aiAgents", icon: Bot, adminOnly: true },
 ];
 
 const bottomNavItems = [
@@ -119,6 +126,9 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
   const { profile, profileLoading, account, accountRole, signOut } = useAuth();
   const totalUnread = useTotalUnread();
   const unreadNotifications = useUnreadNotifications();
+  const visibleNavItems = navItems.filter(
+    (item) => !item.adminOnly || accountRole === "owner" || accountRole === "admin",
+  );
   // Only surface the account-name strip when it actually carries
   // information. A solo user's personal account is named after them
   // (the 017 signup trigger seeds it from `full_name`), so showing it
@@ -208,7 +218,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
         {/* Main navigation */}
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="flex flex-col gap-1">
-            {navItems.map((item) => {
+            {visibleNavItems.map((item) => {
               const isActive =
                 pathname === item.href ||
                 (item.href !== "/dashboard" && pathname.startsWith(item.href));
@@ -270,7 +280,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
 
           <div className="my-4 border-t border-border" />
 
-          <ul className="flex flex-col gap-1">
+          {(accountRole === "owner" || accountRole === "admin") && <ul className="flex flex-col gap-1">
             {bottomNavItems.map((item) => {
               const isActive = pathname.startsWith(item.href);
               return (
@@ -290,7 +300,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
                 </li>
               );
             })}
-          </ul>
+          </ul>}
         </nav>
 
         {/* User section */}

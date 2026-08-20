@@ -49,12 +49,12 @@ function SignupPageInner() {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Las contraseñas no coinciden");
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError("La contraseña debe tener al menos 6 caracteres");
       return;
     }
 
@@ -98,12 +98,11 @@ function SignupPageInner() {
               <CheckCircle className="h-6 w-6 text-primary" />
             </div>
             <CardTitle className="text-xl text-foreground">
-              Check your email
+              Revisá tu correo
             </CardTitle>
             <CardDescription className="text-muted-foreground">
-              We&apos;ve sent a confirmation link to{" "}
-              <span className="text-foreground">{email}</span>. Please check your
-              inbox and click the link to verify your account.
+              Enviamos un enlace de confirmación a{" "}
+              <span className="text-foreground">{email}</span>. Abrilo para verificar tu cuenta.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -118,7 +117,7 @@ function SignupPageInner() {
                 variant="outline"
                 className="w-full border-border text-muted-foreground hover:bg-muted hover:text-foreground"
               >
-                Back to sign in
+                Volver al ingreso
               </Button>
             </Link>
           </CardContent>
@@ -139,12 +138,12 @@ function SignupPageInner() {
             )}
           </div>
           <CardTitle className="text-xl text-foreground">
-            {inviteToken ? "Create account & join" : "Create account"}
+            {inviteToken ? "Crear cuenta y unirme" : "Crear cuenta"}
           </CardTitle>
           <CardDescription className="text-muted-foreground">
             {inviteToken
-              ? "Verify your email, then accept the invitation to join your team."
-              : "Get started with CRM Template for WhatsApp"}
+              ? "Verificá tu correo y aceptá la invitación para sumarte al equipo."
+              : "Comenzá a gestionar tus leads y conversaciones de WhatsApp"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -157,12 +156,12 @@ function SignupPageInner() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="fullName" className="text-muted-foreground">
-                Full name
+                Nombre completo
               </Label>
               <Input
                 id="fullName"
                 type="text"
-                placeholder="John Doe"
+                placeholder="Nombre y apellido"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
@@ -172,12 +171,12 @@ function SignupPageInner() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="email" className="text-muted-foreground">
-                Email
+                Correo electrónico
               </Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder="vos@ejemplo.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -187,12 +186,12 @@ function SignupPageInner() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="password" className="text-muted-foreground">
-                Password
+                Contraseña
               </Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="At least 6 characters"
+                placeholder="Al menos 6 caracteres"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -202,12 +201,12 @@ function SignupPageInner() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="confirmPassword" className="text-muted-foreground">
-                Confirm password
+                Confirmar contraseña
               </Label>
               <Input
                 id="confirmPassword"
                 type="password"
-                placeholder="Repeat your password"
+                placeholder="Repetí tu contraseña"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -220,12 +219,12 @@ function SignupPageInner() {
               disabled={loading}
               className="mt-2 h-10 w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
             >
-              {loading ? "Creating account..." : "Create account"}
+              {loading ? "Creando cuenta..." : "Crear cuenta"}
             </Button>
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
+            ¿Ya tenés una cuenta?{" "}
             <Link
               href={
                 inviteToken
@@ -234,7 +233,7 @@ function SignupPageInner() {
               }
               className="text-primary hover:text-primary/80"
             >
-              Sign in
+              Ingresar
             </Link>
           </p>
         </CardContent>

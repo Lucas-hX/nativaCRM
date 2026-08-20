@@ -15,6 +15,10 @@
     "createAccount": "계정 만들기"
   },
   "Sidebar": {
+    "myWork": "내 작업",
+    "teamSummary": "팀 요약",
+    "leadOperations": "리드 운영",
+    "integrations": "통합",
     "title": "WhatsApp용 CRM 템플릿",
     "dashboard": "대시보드",
     "inbox": "인박스",
@@ -41,6 +45,8 @@
     "menuSignOut": "로그아웃"
   },
   "Header": {
+    "leads": "내 작업",
+    "leadOperations": "리드 운영",
     "dashboard": "대시보드",
     "inbox": "인박스",
     "notifications": "알림",
@@ -1543,7 +1549,11 @@
       "profile": "내 프로필",
       "security": "로그인 & 보안",
       "appearance": "화면 설정",
+      "integrations": "통합",
       "whatsapp": "WhatsApp",
+      "make": "Make",
+      "meta-leads": "Meta Lead Ads",
+      "google-sheets": "Google Sheets",
       "templates": "템플릿",
       "quick-replies": "빠른 답장",
       "fields": "필드 & 태그",

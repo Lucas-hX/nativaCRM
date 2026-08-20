@@ -18,6 +18,8 @@ import { FieldsAndTagsPanel } from '@/components/settings/fields-and-tags-panel'
 import { DealsSettings } from '@/components/settings/deals-settings';
 import { MembersTab } from '@/components/settings/members-tab';
 import { ApiKeysSettings } from '@/components/settings/api-keys-settings';
+import { IntegrationCenter } from '@/components/settings/integration-center';
+import { GoogleSheetsConfig, MakeIntegrationConfig, MetaLeadAdsConfig } from '@/components/settings/provider-integration-config';
 import {
   resolveSection,
   type SettingsSection,
@@ -42,7 +44,7 @@ export default function SettingsPage() {
 function SettingsPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { defaultCurrency } = useAuth();
+  const { defaultCurrency, canEditSettings } = useAuth();
   const { mode } = useTheme();
   const t = useTranslations('Settings');
 
@@ -50,7 +52,9 @@ function SettingsPageInner() {
   // section — deep-linkable, and it keeps the existing links in the
   // app sidebar/header working. Legacy tab values (tags, custom-fields)
   // resolve onto their new home; unknown/empty → the Overview landing.
-  const section = resolveSection(searchParams.get('tab'));
+  const requestedSection = resolveSection(searchParams.get('tab'));
+  const adminSections: SettingsSection[] = ['integrations','make','meta-leads','google-sheets'];
+  const section = adminSections.includes(requestedSection) && !canEditSettings ? 'overview' : requestedSection;
 
   const go = (next: SettingsSection) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -74,7 +78,11 @@ function SettingsPageInner() {
     profile: <ProfileForm />,
     security: <SecurityPanel />,
     appearance: <AppearancePanel />,
+    integrations: <IntegrationCenter />,
     whatsapp: <WhatsAppConfig />,
+    make: <MakeIntegrationConfig />,
+    'meta-leads': <MetaLeadAdsConfig />,
+    'google-sheets': <GoogleSheetsConfig />,
     templates: <TemplateManager />,
     'quick-replies': <QuickRepliesManager />,
     fields: <FieldsAndTagsPanel />,

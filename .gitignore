@@ -20,9 +20,23 @@
 # production
 /build
 
+# self-hosted infrastructure runtime and secrets
+/infra/supabase-platform/
+/infra/supabase/.env
+/infra/supabase/.env.old
+/infra/supabase/.env.example
+/infra/supabase/volumes/db/data/
+/infra/supabase/volumes/storage/
+/infra/backups/
+*.dump
+*.backup
+
 # misc
 .DS_Store
 *.pem
+*.key
+*.p12
+*.pfx
 
 # debug
 npm-debug.log*
@@ -35,6 +49,9 @@ yarn-error.log*
 # keep example files so forkers have a template to copy
 !.env.local.example
 !.env.example
+# The full self-hosted Supabase template contains upstream default
+# credentials. Keep the local copy, but never publish it from this repo.
+/infra/supabase/.env.example
 
 # vercel
 .vercel

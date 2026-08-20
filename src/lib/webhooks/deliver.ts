@@ -49,6 +49,18 @@ export async function dispatchWebhookEvent(
   event: WebhookEvent,
   data: unknown
 ): Promise<void> {
+  await dispatchWebhookEventDurable(db, accountId, event, data);
+}
+
+export interface WebhookDispatchResult { matched: number; succeeded: number; failed: number }
+
+export async function dispatchWebhookEventDurable(
+  db: SupabaseClient,
+  accountId: string,
+  event: WebhookEvent,
+  data: unknown,
+  delivery?: { id: string; occurredAt: string }
+): Promise<WebhookDispatchResult> {
   try {
     const { data: rows, error } = await db
       .from('webhook_endpoints')
@@ -57,29 +69,29 @@ export async function dispatchWebhookEvent(
       .eq('is_active', true)
       .contains('events', [event]);
 
-    if (error || !rows || rows.length === 0) return;
+    if (error) throw error;
+    if (!rows || rows.length === 0) return { matched: 0, succeeded: 0, failed: 0 };
 
     // Sign the exact bytes we send so a receiver can recompute the
     // HMAC over the raw request body. `id` is a per-delivery uuid the
     // receiver can dedupe on (deliveries are at-least-once and may
     // repeat / arrive out of order).
     const payload = JSON.stringify({
-      id: randomUUID(),
+      id: delivery?.id ?? randomUUID(),
       event,
-      occurred_at: new Date().toISOString(),
+      occurred_at: delivery?.occurredAt ?? new Date().toISOString(),
       account_id: accountId,
       data,
     });
     const tsSeconds = Math.floor(Date.now() / 1000);
 
-    await Promise.allSettled(
-      (rows as EndpointRow[]).map((row) =>
-        deliverOne(db, row, event, payload, tsSeconds)
-      )
-    );
+    const outcomes = await Promise.all((rows as EndpointRow[]).map((row) => deliverOne(db, row, event, payload, tsSeconds)));
+    const succeeded = outcomes.filter(Boolean).length;
+    return { matched: outcomes.length, succeeded, failed: outcomes.length - succeeded };
   } catch (err) {
     // Never let a delivery problem bubble into the webhook response.
     console.error('[webhooks] dispatch failed:', err);
+    return { matched: 0, succeeded: 0, failed: 1 };
   }
 }
 
@@ -89,14 +101,14 @@ async function deliverOne(
   event: WebhookEvent,
   payload: string,
   tsSeconds: number
-): Promise<void> {
+): Promise<boolean> {
   // SSRF guard: refuse to POST to a host that resolves to a private /
   // loopback / link-local address. Counts as a failure so a
   // misconfigured internal URL surfaces and eventually auto-disables.
   if (!(await isDeliverableUrl(row.url))) {
     console.warn('[webhooks] refusing non-public delivery target for', row.id);
     await recordFailure(db, row);
-    return;
+    return false;
   }
 
   let secret: string;
@@ -107,7 +119,7 @@ async function deliverOne(
     // signature — count it as a failure so it eventually auto-disables.
     console.error('[webhooks] secret decrypt failed for', row.id, err);
     await recordFailure(db, row);
-    return;
+    return false;
   }
 
   try {
@@ -133,12 +145,14 @@ async function deliverOne(
       .from('webhook_endpoints')
       .update({ failure_count: 0, last_delivery_at: new Date().toISOString() })
       .eq('id', row.id);
+    return true;
   } catch (err) {
     console.warn(
       `[webhooks] delivery to ${row.id} failed:`,
       err instanceof Error ? err.message : err
     );
     await recordFailure(db, row);
+    return false;
   }
 }
 

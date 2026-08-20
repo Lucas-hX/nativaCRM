@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AuthProvider, useAuth } from "@/hooks/use-auth";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
@@ -13,8 +13,9 @@ import { PresenceHeartbeat } from "@/components/presence/presence-heartbeat";
 // client components can't export Next's metadata object.
 
 function DashboardShellInner({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+  const { user, loading, profileLoading, accountRole } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   // Sidebar drawer state — only used on mobile. On lg+ the sidebar is
   // always visible and this stays at `false` (ignored by the component).
@@ -27,6 +28,10 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
     }
   }, [user, loading, router]);
 
+  const adminOnly = ["/dashboard", "/lead-operations", "/contacts", "/pipelines", "/broadcasts", "/automations", "/flows", "/agents"];
+  const restricted = !profileLoading && accountRole !== "owner" && accountRole !== "admin" && adminOnly.some((path) => pathname === path || pathname.startsWith(`${path}/`));
+  useEffect(() => { if (restricted) router.replace("/leads"); }, [restricted, router]);
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
@@ -38,7 +43,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!user) return null;
+  if (!user || restricted) return null;
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">

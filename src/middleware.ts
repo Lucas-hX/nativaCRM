@@ -5,9 +5,10 @@ export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_INTERNAL_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      cookieOptions: { name: process.env.SUPABASE_AUTH_COOKIE_NAME ?? 'sb-api-auth-token' },
       cookies: {
         getAll() {
           return request.cookies.getAll()
@@ -70,7 +71,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Protected pages - redirect to login if not authenticated
-  const protectedPaths = ['/dashboard', '/inbox', '/contacts', '/pipelines', '/broadcasts', '/automations', '/settings']
+  const protectedPaths = ['/dashboard', '/leads', '/lead-operations', '/inbox', '/contacts', '/pipelines', '/broadcasts', '/automations', '/settings']
   if (!user && protectedPaths.some(path => request.nextUrl.pathname.startsWith(path))) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'

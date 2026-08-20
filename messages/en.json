@@ -15,7 +15,11 @@
     "createAccount": "Create account"
   },
   "Sidebar": {
-    "title": "CRM Template for WhatsApp",
+    "title": "Leads Nativa",
+    "myWork": "Mi trabajo",
+    "teamSummary": "Resumen del equipo",
+    "leadOperations": "Operaciones",
+    "integrations": "Integrations",
     "dashboard": "Dashboard",
     "inbox": "Inbox",
     "notifications": "Notifications",
@@ -41,7 +45,9 @@
     "menuSignOut": "Sign out"
   },
   "Header": {
-    "dashboard": "Dashboard",
+    "dashboard": "Resumen del equipo",
+    "leads": "Mi trabajo",
+    "leadOperations": "Operaciones de leads",
     "inbox": "Inbox",
     "notifications": "Notifications",
     "contacts": "Contacts",
@@ -1543,7 +1549,11 @@
       "profile": "Your profile",
       "security": "Login & security",
       "appearance": "Appearance",
+      "integrations": "Integrations",
       "whatsapp": "WhatsApp",
+      "make": "Make",
+      "meta-leads": "Meta Lead Ads",
+      "google-sheets": "Google Sheets",
       "templates": "Templates",
       "quick-replies": "Quick replies",
       "fields": "Fields & tags",

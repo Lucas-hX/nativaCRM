@@ -42,6 +42,56 @@ BEGIN
     RAISE EXCEPTION 'public.accounts is missing — migration 017 did not apply';
   END IF;
 
+  -- Leads Nativa platform separation and lead-domain foundation.
+  IF to_regclass('public.platform_admins') IS NULL THEN
+    RAISE EXCEPTION 'public.platform_admins is missing — migration 040 did not apply';
+  END IF;
+  IF to_regclass('public.account_settings') IS NULL THEN
+    RAISE EXCEPTION 'public.account_settings is missing — migration 040 did not apply';
+  END IF;
+  IF to_regclass('public.leads') IS NULL
+     OR to_regclass('public.lead_tasks') IS NULL
+     OR to_regclass('public.lead_activities') IS NULL
+     OR to_regclass('public.inbound_events') IS NULL THEN
+    RAISE EXCEPTION 'one or more Leads Nativa domain tables are missing — migration 041 did not apply';
+  END IF;
+  IF to_regprocedure('public.create_lead_with_initial_task(uuid,uuid,text,text,timestamptz,uuid,timestamptz,text,text,text,text,text,text,lead_priority_enum)') IS NULL THEN
+    RAISE EXCEPTION 'create_lead_with_initial_task RPC is missing — migration 041 did not apply';
+  END IF;
+  IF to_regprocedure('public.record_lead_result(uuid,lead_activity_channel_enum,lead_activity_result_enum,text,timestamptz,uuid,uuid)') IS NULL THEN
+    RAISE EXCEPTION 'record_lead_result RPC is missing — migration 041 did not apply';
+  END IF;
+  IF to_regclass('public.domain_events') IS NULL THEN
+    RAISE EXCEPTION 'public.domain_events is missing — migration 042 did not apply';
+  END IF;
+  IF to_regprocedure('public.register_inbound_lead_event(uuid,text,text,jsonb,text)') IS NULL
+     OR to_regprocedure('public.process_inbound_lead_event(uuid,uuid,jsonb,jsonb)') IS NULL
+     OR to_regprocedure('public.fail_inbound_lead_event(uuid,uuid,text,text)') IS NULL THEN
+    RAISE EXCEPTION 'one or more lead ingestion RPCs are missing — migration 042 did not apply';
+  END IF;
+  IF to_regprocedure('public.claim_domain_events(integer,integer)') IS NULL
+     OR to_regprocedure('public.complete_domain_event(uuid)') IS NULL
+     OR to_regprocedure('public.fail_domain_event(uuid,text,integer)') IS NULL THEN
+    RAISE EXCEPTION 'one or more outbox worker RPCs are missing — migration 044 did not apply';
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_trigger WHERE tgname = 'emit_lead_activity_events' AND NOT tgisinternal
+  ) THEN
+    RAISE EXCEPTION 'lead lifecycle outbox trigger is missing — migration 043 did not apply';
+  END IF;
+  IF to_regclass('public.integration_connections') IS NULL
+     OR to_regclass('public.integration_secrets') IS NULL
+     OR to_regclass('public.integration_samples') IS NULL
+     OR to_regclass('public.integration_mappings') IS NULL
+     OR to_regclass('public.integration_runs') IS NULL THEN
+    RAISE EXCEPTION 'one or more Integration Center tables are missing — migration 045 did not apply';
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'integration_mappings_account_connection_fk'
+  ) THEN
+    RAISE EXCEPTION 'Integration Center tenant-consistency constraints are missing — migration 046 did not apply';
+  END IF;
+
   RAISE NOTICE 'schema verification passed';
 END
 $$;

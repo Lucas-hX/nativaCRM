@@ -20,6 +20,8 @@ import { ModeToggle } from "@/components/layout/mode-toggle";
 
 const pageTitles: Record<string, string> = {
   "/dashboard": "dashboard",
+  "/leads": "leads",
+  "/lead-operations": "leadOperations",
   "/inbox": "inbox",
   "/notifications": "notifications",
   "/contacts": "contacts",
@@ -48,7 +50,7 @@ import { useTranslations } from "next-intl";
 export function Header({ onOpenSidebar }: HeaderProps) {
   const t = useTranslations("Header");
   const pathname = usePathname();
-  const { profile, signOut } = useAuth();
+  const { profile, accountRole, signOut } = useAuth();
   const titleKey = getPageTitleKey(pathname);
 
   const initial =
@@ -121,7 +123,7 @@ export function Header({ onOpenSidebar }: HeaderProps) {
             <User className="size-4" />
             {t("menuProfile")}
           </DropdownMenuItem>
-          <DropdownMenuItem
+          {(accountRole === "owner" || accountRole === "admin") && <DropdownMenuItem
             render={
               <Link
                 href="/settings?tab=whatsapp"
@@ -131,7 +133,7 @@ export function Header({ onOpenSidebar }: HeaderProps) {
           >
             <SettingsIcon className="size-4" />
             {t("menuSettings")}
-          </DropdownMenuItem>
+          </DropdownMenuItem>}
           <DropdownMenuSeparator className="bg-border" />
           <DropdownMenuItem
             onClick={signOut}
