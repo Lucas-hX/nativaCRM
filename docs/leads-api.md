@@ -19,13 +19,18 @@ The authenticated account is always derived from the server session. Callers can
 | `POST` | `/api/leads` | agent | Create a lead and its initial next action |
 | `GET` | `/api/leads/:id` | viewer | Lead, contact, pending task, history, and duplicate candidates |
 | `POST` | `/api/leads/:id/results` | agent | Atomically record a seller result and next action |
-| `PUT` | `/api/leads/:id/assignment` | agent | Assign the lead and pending task |
+| `PUT` | `/api/leads/:id/assignment` | admin | Assign the lead and pending task |
 | `GET` | `/api/leads/discard-reasons` | viewer | Structured tenant discard reasons |
 | `GET` | `/api/leads/settings` | viewer | Tenant lead behavior and feature flags |
 | `PATCH` | `/api/leads/settings` | admin | Update supported lead behavior |
+| `GET` | `/api/leads/workspace` | viewer | Current role, operational timezone, and seller-workflow defaults |
 | `POST` | `/api/v1/leads/ingest` | API key: `leads:write` | Idempotently ingest a provider-neutral lead event |
 
 List filters are `status`, `priority`, `assigned_to` (UUID or `unassigned`), `search`, `due_before`, `due_after`, `page`, and `limit` (maximum 100).
+
+For lead reads, `owner`, `admin`, and `viewer` can see the complete account. An `agent` can only see leads assigned to their own user ID. Viewers cannot mutate leads. Assignment is intentionally restricted to `owner` and `admin` during the manual-assignment pilot.
+
+Seller results keep open leads atomic with exactly one pending next action. `rescheduled` additionally requires a structured `reason_code`; `won` requires `sold_product`, with optional `won_amount` and ISO currency. A discard using the tenant reason `no_response` is rejected until the configured attempt threshold is reached.
 
 Errors use `{ "error": { "code", "message", "details?" } }` with stable codes: `VALIDATION_ERROR`, `UNAUTHORIZED`, `FORBIDDEN`, `NOT_FOUND`, `CONFLICT`, `DATA_ACCESS_ERROR`, and `INTERNAL_ERROR`.
 

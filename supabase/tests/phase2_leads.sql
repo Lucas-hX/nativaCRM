@@ -116,6 +116,61 @@ SELECT pg_temp.assert_true(
   'no_answer replaces the pending task atomically'
 );
 
+-- The configurable no-response reason cannot close the lead before
+-- the fifth attempted contact (the default pilot threshold).
+SELECT id AS no_response_reason_id
+FROM public.discard_reasons
+WHERE account_id = :'tenant_account_id'::UUID AND code = 'no_response'
+\gset
+SELECT set_config('test.no_response_reason_id', :'no_response_reason_id', TRUE);
+DO $$
+BEGIN
+  BEGIN
+    PERFORM public.record_lead_result(
+      p_lead_id => current_setting('test.lead_id')::UUID,
+      p_channel => 'phone',
+      p_result => 'discarded',
+      p_discard_reason_id => current_setting('test.no_response_reason_id')::UUID
+    );
+    RAISE EXCEPTION 'early no-response discard unexpectedly succeeded';
+  EXCEPTION WHEN check_violation THEN
+    NULL;
+  END;
+END;
+$$;
+
+-- Agents cannot use the assignment command; assignment is a
+-- supervisory operation even when the target happens to be themselves.
+DO $$
+BEGIN
+  BEGIN
+    PERFORM public.record_lead_result(
+      p_lead_id => current_setting('test.lead_id')::UUID,
+      p_channel => 'system',
+      p_result => 'assigned',
+      p_assigned_to_user_id => '10000000-0000-4000-8000-000000000003'
+    );
+    RAISE EXCEPTION 'agent assignment unexpectedly succeeded';
+  EXCEPTION WHEN insufficient_privilege THEN
+    NULL;
+  END;
+END;
+$$;
+
+-- Reprogramming does not count as an attempt and requires a
+-- structured reason plus the replacement next action.
+SELECT public.record_lead_result(
+  p_lead_id => :'lead_id'::UUID,
+  p_channel => 'phone',
+  p_result => 'rescheduled',
+  p_next_follow_up_at => NOW() + INTERVAL '2 days',
+  p_reason_code => 'customer_request'
+);
+SELECT pg_temp.assert_true(
+  (SELECT attempt_count = 1 FROM public.leads WHERE id = :'lead_id'::UUID),
+  'rescheduling does not increment attempts'
+);
+
 -- A viewer can read but cannot mutate the tenant's lead.
 SELECT set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000004', TRUE);
 SELECT pg_temp.assert_true(
@@ -187,7 +242,27 @@ END;
 $$;
 
 -- Closing a lead cancels all pending work.
-SELECT public.record_lead_result(:'lead_id'::UUID, 'phone', 'won', 'Sold');
+DO $$
+BEGIN
+  BEGIN
+    PERFORM public.record_lead_result(
+      p_lead_id => current_setting('test.lead_id')::UUID,
+      p_channel => 'phone',
+      p_result => 'won'
+    );
+    RAISE EXCEPTION 'sale without product unexpectedly succeeded';
+  EXCEPTION WHEN check_violation THEN
+    NULL;
+  END;
+END;
+$$;
+SELECT public.record_lead_result(
+  p_lead_id => :'lead_id'::UUID,
+  p_channel => 'phone',
+  p_result => 'won',
+  p_note => 'Sold',
+  p_sold_product => 'Plan de prueba'
+);
 SELECT pg_temp.assert_true(
   (SELECT status = 'won' AND attempt_count = 2 AND closed_at IS NOT NULL FROM public.leads WHERE id = :'lead_id'::UUID),
   'won closes the lead and increments the attempt count'

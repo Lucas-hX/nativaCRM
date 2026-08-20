@@ -36,6 +36,7 @@ export interface AccountSettings {
     close_no_response_after?: number;
     suggest_follow_up?: boolean;
     require_next_step?: boolean;
+    timezone?: string;
     [key: string]: unknown;
   };
   created_at: string;
@@ -65,6 +66,9 @@ export interface Lead {
   dni_last4: string | null;
   discard_reason_id: string | null;
   closed_at: string | null;
+  sold_product: string | null;
+  won_amount: number | null;
+  won_currency: string | null;
   created_by_user_id: string | null;
   created_at: string;
   updated_at: string;
@@ -131,4 +135,8 @@ export interface RecordLeadResultInput {
   nextFollowUpAt?: string;
   discardReasonId?: string;
   assignedToUserId?: string;
+  reasonCode?: string;
+  soldProduct?: string;
+  wonAmount?: number;
+  wonCurrency?: string;
 }
