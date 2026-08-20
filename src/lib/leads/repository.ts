@@ -2,7 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { CreateLeadCommand, LeadListFilters, RecordLeadResultCommand, UpdateLeadSettingsCommand } from "./contracts";
 import { LeadDomainError } from "./errors";
 
-const LEAD_FIELDS = "id, contact_id, source, external_id, campaign_id, campaign_name, form_id, form_name, company, plan, status, priority, assigned_to_user_id, received_at, attempt_count, dni_last4, discard_reason_id, closed_at, created_at, updated_at, contact:contacts(id, name, phone, email, company, avatar_url), pending_tasks:lead_tasks(id, assigned_to_user_id, status, due_at, created_at)";
+const LEAD_FIELDS = "id, contact_id, source, external_id, campaign_id, campaign_name, form_id, form_name, company, plan, status, priority, assigned_to_user_id, received_at, attempt_count, dni_last4, discard_reason_id, closed_at, sold_product, won_amount, won_currency, created_at, updated_at, contact:contacts(id, name, phone, email, company, avatar_url), pending_tasks:lead_tasks(id, assigned_to_user_id, status, due_at, created_at)";
 
 export interface LeadRepository {
   list(accountId: string, filters: LeadListFilters): Promise<{ data: unknown[]; total: number }>;
@@ -58,7 +58,7 @@ export class SupabaseLeadRepository implements LeadRepository {
   }
 
   async findById(accountId: string, leadId: string) {
-    const { data, error } = await this.db.from("leads").select(`${LEAD_FIELDS}, activities:lead_activities(id, channel, result, attempt_number, note, metadata, actor_user_id, occurred_at, created_at), duplicate_matches:lead_duplicate_matches(id, matched_lead_id, matched_contact_id, match_type, confidence, reviewed_at, created_at)`).eq("account_id", accountId).eq("id", leadId).maybeSingle();
+    const { data, error } = await this.db.from("leads").select(`${LEAD_FIELDS}, activities:lead_activities(id, channel, result, attempt_number, note, reason_code, metadata, actor_user_id, occurred_at, created_at), duplicate_matches:lead_duplicate_matches(id, matched_lead_id, matched_contact_id, match_type, confidence, reviewed_at, created_at)`).eq("account_id", accountId).eq("id", leadId).maybeSingle();
     if (error) fail("detail", error);
     return data;
   }
@@ -83,6 +83,8 @@ export class SupabaseLeadRepository implements LeadRepository {
       p_lead_id: leadId, p_channel: command.channel, p_result: command.result,
       p_note: command.note ?? null, p_next_follow_up_at: command.nextFollowUpAt ?? null,
       p_discard_reason_id: command.discardReasonId ?? null, p_assigned_to_user_id: command.assignedToUserId ?? null,
+      p_reason_code: command.reasonCode ?? null, p_sold_product: command.soldProduct ?? null,
+      p_won_amount: command.wonAmount ?? null, p_won_currency: command.wonCurrency ?? null,
     });
     if (error) fail("record_result", error);
     return data;

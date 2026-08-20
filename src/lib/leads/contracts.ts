@@ -46,6 +46,10 @@ export interface RecordLeadResultCommand {
   nextFollowUpAt?: string;
   discardReasonId?: string;
   assignedToUserId?: string;
+  reasonCode?: string;
+  soldProduct?: string;
+  wonAmount?: number;
+  wonCurrency?: string;
 }
 
 export interface UpdateLeadSettingsCommand {
@@ -77,6 +81,13 @@ function date(value: unknown, field: string, optional = false): string | undefin
   if (optional && (value == null || value === "")) return undefined;
   if (typeof value !== "string" || !Number.isFinite(Date.parse(value))) throw validationError(`${field} must be an ISO date`, { [field]: "invalid_date" });
   return new Date(value).toISOString();
+}
+
+function optionalAmount(value: unknown): number | undefined {
+  if (value == null || value === "") return undefined;
+  const amount = Number(value);
+  if (!Number.isFinite(amount) || amount < 0) throw validationError("won_amount must be a non-negative number", { won_amount: "invalid_value" });
+  return amount;
 }
 
 function enumValue<T extends string>(value: unknown, field: string, values: readonly T[], fallback?: T): T {
@@ -131,10 +142,17 @@ export function parseRecordResult(value: unknown): RecordLeadResultCommand {
     nextFollowUpAt: date(body.next_follow_up_at, "next_follow_up_at", true),
     discardReasonId: uuid(body.discard_reason_id, "discard_reason_id", true),
     assignedToUserId: uuid(body.assigned_to_user_id, "assigned_to_user_id", true),
+    reasonCode: optionalText(body.reason_code, "reason_code", 80),
+    soldProduct: optionalText(body.sold_product, "sold_product", 255),
+    wonAmount: optionalAmount(body.won_amount),
+    wonCurrency: optionalText(body.won_currency, "won_currency", 3)?.toUpperCase(),
   };
   if (["no_answer", "contacted", "qualified", "rescheduled"].includes(result) && !command.nextFollowUpAt) throw validationError("This result requires next_follow_up_at", { next_follow_up_at: "required" });
   if (result === "discarded" && !command.discardReasonId) throw validationError("Discarding a lead requires discard_reason_id", { discard_reason_id: "required" });
   if (result === "assigned" && !command.assignedToUserId) throw validationError("Assignment requires assigned_to_user_id", { assigned_to_user_id: "required" });
+  if (result === "rescheduled" && !command.reasonCode) throw validationError("Rescheduling requires reason_code", { reason_code: "required" });
+  if (result === "won" && !command.soldProduct) throw validationError("A sale requires sold_product", { sold_product: "required" });
+  if (command.wonAmount !== undefined && command.wonCurrency && !/^[A-Z]{3}$/.test(command.wonCurrency)) throw validationError("won_currency must be an ISO 4217 code", { won_currency: "invalid_value" });
   return command;
 }
 

@@ -58,8 +58,14 @@ BEGIN
   IF to_regprocedure('public.create_lead_with_initial_task(uuid,uuid,text,text,timestamptz,uuid,timestamptz,text,text,text,text,text,text,lead_priority_enum)') IS NULL THEN
     RAISE EXCEPTION 'create_lead_with_initial_task RPC is missing — migration 041 did not apply';
   END IF;
-  IF to_regprocedure('public.record_lead_result(uuid,lead_activity_channel_enum,lead_activity_result_enum,text,timestamptz,uuid,uuid)') IS NULL THEN
+  IF to_regprocedure('public.record_lead_result(uuid,lead_activity_channel_enum,lead_activity_result_enum,text,timestamptz,uuid,uuid,text,text,numeric,text)') IS NULL THEN
     RAISE EXCEPTION 'record_lead_result RPC is missing — migration 041 did not apply';
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'leads' AND column_name = 'sold_product'
+  ) THEN
+    RAISE EXCEPTION 'seller workflow commercial fields are missing — migration 047 did not apply';
   END IF;
   IF to_regclass('public.domain_events') IS NULL THEN
     RAISE EXCEPTION 'public.domain_events is missing — migration 042 did not apply';
