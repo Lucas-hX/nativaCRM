@@ -19,8 +19,13 @@ import { DealsSettings } from '@/components/settings/deals-settings';
 import { MembersTab } from '@/components/settings/members-tab';
 import { ApiKeysSettings } from '@/components/settings/api-keys-settings';
 import { IntegrationCenter } from '@/components/settings/integration-center';
-import { GoogleSheetsConfig, MakeIntegrationConfig, MetaLeadAdsConfig } from '@/components/settings/provider-integration-config';
 import {
+  GoogleSheetsConfig,
+  MakeIntegrationConfig,
+  MetaLeadAdsConfig,
+} from '@/components/settings/provider-integration-config';
+import {
+  SECTION_META,
   resolveSection,
   type SettingsSection,
 } from '@/components/settings/settings-sections';
@@ -53,8 +58,12 @@ function SettingsPageInner() {
   // app sidebar/header working. Legacy tab values (tags, custom-fields)
   // resolve onto their new home; unknown/empty → the Overview landing.
   const requestedSection = resolveSection(searchParams.get('tab'));
-  const adminSections: SettingsSection[] = ['integrations','make','meta-leads','google-sheets'];
-  const section = adminSections.includes(requestedSection) && !canEditSettings ? 'overview' : requestedSection;
+  // The rail is only presentation. Enforce the same boundary against a
+  // hand-written `?tab=` URL so seller sessions never mount admin panels.
+  const section =
+    SECTION_META[requestedSection].adminOnly && !canEditSettings
+      ? 'overview'
+      : requestedSection;
 
   const go = (next: SettingsSection) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -70,7 +79,7 @@ function SettingsPageInner() {
       appearance: mode.charAt(0).toUpperCase() + mode.slice(1),
       deals: defaultCurrency,
     }),
-    [mode, defaultCurrency],
+    [mode, defaultCurrency]
   );
 
   const panel: Record<SettingsSection, ReactNode> = {
@@ -94,12 +103,10 @@ function SettingsPageInner() {
   return (
     <div>
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+        <h1 className="text-foreground text-2xl font-bold tracking-tight">
           {t('pageTitle')}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {t('pageDesc')}
-        </p>
+        <p className="text-muted-foreground mt-1 text-sm">{t('pageDesc')}</p>
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[236px_minmax(0,1fr)] lg:items-start">
