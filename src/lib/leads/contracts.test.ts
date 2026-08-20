@@ -21,6 +21,12 @@ describe("lead HTTP contracts", () => {
     expect(() => parseRecordResult({ channel: "phone", result: "discarded" })).toThrow(/discard_reason_id/);
   });
 
+  it("requires structured rescheduling and sale data", () => {
+    expect(() => parseRecordResult({ channel: "phone", result: "rescheduled", next_follow_up_at: "2026-08-21" })).toThrow(/reason_code/);
+    expect(() => parseRecordResult({ channel: "phone", result: "won" })).toThrow(/sold_product/);
+    expect(parseRecordResult({ channel: "phone", result: "won", sold_product: "Plan PyME", won_amount: 1200, won_currency: "ars" })).toMatchObject({ soldProduct: "Plan PyME", wonAmount: 1200, wonCurrency: "ARS" });
+  });
+
   it("creates a provider-neutral assignment result", () => {
     expect(parseAssignment({ assigned_to_user_id: id })).toEqual({ channel: "system", result: "assigned", assignedToUserId: id, note: undefined });
   });

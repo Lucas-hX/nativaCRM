@@ -13,7 +13,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: Request) {
   try {
     const ctx = await requireRole("agent");
-    const lead = await leadService(ctx).create(ctx.accountId, parseCreateLead(await readJson(request)));
+    const command = parseCreateLead(await readJson(request));
+    if (ctx.role === "agent" && !command.assignedToUserId) command.assignedToUserId = ctx.userId;
+    const lead = await leadService(ctx).create(ctx.accountId, command);
     return NextResponse.json({ data: lead }, { status: 201 });
   } catch (error) { return leadErrorResponse(error); }
 }

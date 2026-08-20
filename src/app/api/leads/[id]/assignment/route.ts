@@ -6,7 +6,7 @@ import { assertUuid, leadErrorResponse, leadService, readJson } from "@/lib/lead
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params; assertUuid(id);
-    const ctx = await requireRole("agent");
+    const ctx = await requireRole("admin");
     return NextResponse.json({ data: await leadService(ctx).recordResult(ctx.accountId, id, parseAssignment(await readJson(request))) });
   } catch (error) { return leadErrorResponse(error); }
 }
