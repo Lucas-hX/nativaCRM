@@ -1,124 +1,54 @@
-# Using this template
+# Contribuir a nativaCRM
 
-This is a **template repository**, not a collaborative product. The
-expected flow is:
+nativaCRM es un único producto basado en WA-CRM y adaptado para Comunicación Nativa. No se crean ramas, copias o reglas hardcodeadas por cliente; las diferencias pertenecen a configuración y feature flags.
 
-1. **Fork** it to your own GitHub account or organisation.
-2. **Deploy** the fork — see [`docs/`](./docs/README.md).
-3. **Customise** your fork. Rebrand, add the features you need, remove
-   the ones you don't, swap hosting, change the schema.
+## Flujo de ramas
 
-You **don't** need to send changes back upstream. The fact that your
-fork diverges is the whole point — the upstream is deliberately
-opinionated about stack, UX, and scope, and your fork is where those
-opinions become yours.
+- `main` contiene la versión estable y desplegable.
+- `develop` integra el siguiente conjunto de cambios.
+- Las ramas `feat/*`, `fix/*`, `chore/*` y `docs/*` nacen desde `develop`.
+- Los hotfixes pueden nacer desde `main`, pero deben volver a integrarse en `develop`.
 
-## Fork and run
+Consulta [docs/git-workflow.md](./docs/git-workflow.md) para el procedimiento completo.
+
+## Preparar un cambio
 
 ```bash
-# 1. Fork on GitHub: https://github.com/ArnasDon/wacrm → Fork
-# 2. Clone your fork
-git clone https://github.com/<your-username>/wacrm.git
-cd wacrm
-
-cp .env.local.example .env.local   # fill in Supabase + Meta creds
-npm install
-npm run dev
+git switch develop
+git pull --ff-only origin develop
+git switch -c feat/nombre-breve
+npm ci
 ```
 
-Full setup (Supabase migrations, WhatsApp Business API, deploy) lives in
-[`docs/`](./docs/README.md).
+Antes de modificar comportamiento de Next.js, lee la guía relevante incluida en `node_modules/next/dist/docs/`. Para cambios de producto o dominio, revisa `AGENTS.md`, el plan funcional, los wireframes y `docs/leads-api.md`.
 
-## Keeping your fork up to date
+## Criterios obligatorios
 
-Pull in upstream bug fixes and security patches periodically:
+- Mantener `account_id`, RLS, índices y políticas explícitas en datos de tenant.
+- Implementar cambios de base como migraciones ordenadas e idempotentes.
+- Mantener rutas HTTP delgadas y lógica de negocio en servicios provider-neutral.
+- Preservar exactamente una próxima acción para cada lead abierto.
+- No exponer ni registrar credenciales, DNI completos o payloads sensibles.
+- No incluir `.env`, dumps, backups o datos reales en commits, issues o capturas.
+- Mantener una operación normal del vendedor dentro de tres acciones principales.
+
+## Verificación
 
 ```bash
-git remote add upstream https://github.com/ArnasDon/wacrm.git  # once
-git fetch upstream
-git checkout main
-git merge upstream/main     # or: git rebase upstream/main
-# Resolve any conflicts (likely in areas you've customised), then push
-git push origin main
+npm run typecheck
+npm run lint
+npm test
+npm run build
 ```
 
-If you've made heavy local customisations, rebasing can surface
-conflicts every time you pull. Pinning to a specific upstream tag and
-updating on your schedule is a valid alternative.
+Las advertencias heredadas de lint pueden permanecer, pero no se aceptan errores nuevos ni reducciones silenciosas de cobertura. Los cambios de migraciones también deben superar las pruebas SQL y de RLS aplicables.
 
-## Reporting bugs in the upstream template
+## Pull requests
 
-If you find a bug in the upstream code — not one you introduced in your
-fork — please file it using the
-[bug report](https://github.com/ArnasDon/wacrm/issues/new?template=bug_report.yml)
-template. Including the commit SHA, the runtime (Hostinger / Vercel /
-local / other), and logs will get to a fix fastest.
+Abre el PR de la rama de trabajo hacia `develop`. Describe el motivo, el alcance, las pruebas, el impacto de despliegue y el rollback. Cuando `develop` esté listo para producción, abre un PR de release hacia `main`.
 
-## Reporting security issues
+No fuerces ramas protegidas ni reescribas etiquetas publicadas. Las correcciones provenientes de [ArnasDon/wacrm](https://github.com/ArnasDon/wacrm) se incorporan deliberadamente desde `upstream`; no se fusiona upstream de forma automática.
 
-**Do not file security issues publicly.** Follow the private flow in
-[SECURITY.md](./.github/SECURITY.md).
+## Licencia
 
-## Upstream pull requests
-
-Not the primary flow, but welcome in specific cases:
-
-- **Security fixes** — always welcome, please follow SECURITY.md first
-  for disclosure.
-- **Bug fixes** that match upstream intent (crash, correctness,
-  documentation errors, typos) — land quickly.
-- **Small improvements** (accessibility, obvious UX nits) — usually
-  welcome, open an issue first to check alignment.
-
-Less likely to land:
-
-- **New features.** The template's scope is intentionally narrow. A
-  "great idea for a CRM" is often a great idea for *your* CRM — i.e.
-  your fork — but would dilute the template for the next forker.
-- **Stack changes** (different ORM, different UI kit, different auth
-  provider). These belong in a fork, not upstream.
-- **Opinionated refactors** without a concrete correctness or
-  performance motivation.
-
-If you do send a PR, the usual rules apply:
-
-- Branch off the latest `main` (don't push to a merged branch — commits
-  end up orphaned).
-- Run `npm run typecheck` and `npm run format` locally first.
-- Fill in the PR template, especially the **Test plan**.
-- One logical change per PR.
-- Commit-message first line is imperative + terse; the body explains
-  the *why*, the diff shows the *what*.
-
-Expect a review within a few days. PRs opened without an issue may be
-closed — open the issue first to align.
-
-## If you maintain a public fork
-
-- Rebrand. The "CRM Template for WhatsApp" name, favicon, and
-  `wacrm.tech` URL belong to the upstream project; please swap them
-  for your own before putting your deployment in front of users.
-- Keep the MIT [`LICENSE`](./LICENSE) file — that's how the template's
-  permissions travel with the code. Attribution in a `README` section
-  is appreciated but not required.
-- You are free to re-license additions to your fork however you like.
-
-## Dev-loop reference
-
-Even if you never send a PR upstream, these are the scripts you'll use
-in your fork:
-
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Turbopack dev server on port 3000. |
-| `npm run build` | Production build. Next also runs its own typecheck here. |
-| `npm run typecheck` | `tsc --noEmit`. Fast TS-only pass. |
-| `npm run lint` | ESLint. |
-| `npm run format` | Prettier write. |
-| `npm run format:check` | Prettier in check-only mode. Useful in CI. |
-
-## Licensing
-
-This template is MIT ([`LICENSE`](./LICENSE)). Anything you contribute
-upstream is assumed to be MIT too. Your fork's additions are yours to
-license however you like.
+El proyecto conserva la licencia [MIT](./LICENSE) del código base. Las contribuciones al repositorio se publican bajo la misma licencia salvo indicación explícita compatible.
