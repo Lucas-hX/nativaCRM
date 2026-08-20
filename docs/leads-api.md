@@ -24,6 +24,9 @@ The authenticated account is always derived from the server session. Callers can
 | `GET` | `/api/leads/settings` | viewer | Tenant lead behavior and feature flags |
 | `PATCH` | `/api/leads/settings` | admin | Update supported lead behavior |
 | `GET` | `/api/leads/workspace` | viewer | Current role, operational timezone, and seller-workflow defaults |
+| `GET` | `/api/leads/commercial-schema` | viewer | Active opportunity types, catalog items and lead fields |
+| `POST/PATCH/DELETE` | `/api/leads/commercial-schema` | admin | Configure the tenant commercial model |
+| `PATCH` | `/api/leads/:id/commercial-data` | agent | Set type, catalog item and custom values on an accessible lead |
 | `POST` | `/api/v1/leads/ingest` | API key: `leads:write` | Idempotently ingest a provider-neutral lead event |
 
 List filters are `status`, `priority`, `assigned_to` (UUID or `unassigned`), `search`, `due_before`, `due_after`, `page`, and `limit` (maximum 100).
@@ -56,7 +59,13 @@ Provider adapters should translate their payload into the canonical ingestion co
     "next_follow_up_at": "2026-08-20T10:05:00Z",
     "campaign_id": "campaign-1",
     "form_id": "form-1",
-    "priority": "normal"
+    "priority": "normal",
+    "opportunity_type_code": "new_sale",
+    "catalog_sku": "PLAN-10GB",
+    "fields": {
+      "current_provider": "other",
+      "line_count": 2
+    }
   },
   "metadata": {
     "adapter_version": "1"
@@ -65,6 +74,8 @@ Provider adapters should translate their payload into the canonical ingestion co
 ```
 
 The response identifies the durable inbound event, contact, and lead, plus `duplicate` and `contact_created`. Replaying the same `(account, provider, event_id)` returns the original lead. Audit payloads store only a phone suffix, presence flags, and metadata key names; direct contact fields and metadata values are processed but not copied into diagnostic JSON.
+
+The commercial extensions are tenant-defined and provider-neutral. Opportunity types are goals such as a new sale or renewal; catalog items are lightweight sales references rather than inventory; field codes carry opportunity-specific data. Unknown codes do not create schema implicitly: administrators define the schema first, then provider mappings send stable codes.
 
 ## Administrative operations API
 

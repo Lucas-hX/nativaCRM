@@ -45,6 +45,9 @@ type Lead = {
   company: string | null;
   plan: string | null;
   assigned_to_user_id: string | null;
+  opportunity_type_id?: string | null;
+  catalog_item_id?: string | null;
+  field_values?: Array<{ field_definition_id: string; value: unknown }>;
   contact?: { name: string | null; phone: string } | null;
   pending_tasks?: Array<{ due_at: string }>;
   activities?: Activity[];
@@ -56,6 +59,34 @@ type Workspace = {
 };
 type Member = { user_id: string; full_name: string; role: string };
 type Reason = { id: string; name: string; code: string };
+type OpportunityType = {
+  id: string;
+  name: string;
+  color: string;
+  is_active: boolean;
+};
+type CatalogItem = {
+  id: string;
+  name: string;
+  kind: string;
+  price: number | null;
+  currency: string | null;
+  is_active: boolean;
+};
+type FieldDefinition = {
+  id: string;
+  name: string;
+  field_type: string;
+  options: string[];
+  opportunity_type_id: string | null;
+  is_required: boolean;
+  is_active: boolean;
+};
+type CommercialSchema = {
+  opportunity_types: OpportunityType[];
+  catalog_items: CatalogItem[];
+  field_definitions: FieldDefinition[];
+};
 type View = 'today' | 'new' | 'followup' | 'overdue' | 'unassigned' | 'all';
 type Result =
   'no_answer' | 'contacted' | 'qualified' | 'rescheduled' | 'discarded' | 'won';
@@ -164,7 +195,13 @@ export default function LeadsPage() {
     [loading, setLoading] = useState(true),
     [selected, setSelected] = useState<Lead | null>(null),
     [members, setMembers] = useState<Member[]>([]),
-    [reasons, setReasons] = useState<Reason[]>([]);
+    [reasons, setReasons] = useState<Reason[]>([]),
+    [commercial, setCommercial] = useState<CommercialSchema>({
+      opportunity_types: [],
+      catalog_items: [],
+      field_definitions: [],
+    }),
+    [fieldValues, setFieldValues] = useState<Record<string, unknown>>({});
   const [result, setResult] = useState<Result>('no_answer'),
     [channel, setChannel] = useState('phone'),
     [nextAt, setNextAt] = useState(''),
@@ -181,12 +218,14 @@ export default function LeadsPage() {
     [supervise, readOnly]
   );
   const context = useCallback(async () => {
-    const [c, r] = await Promise.all([
+    const [c, r, schema] = await Promise.all([
       fetch('/api/leads/workspace').then(body),
       fetch('/api/leads/discard-reasons').then(body),
+      fetch('/api/leads/commercial-schema').then(body),
     ]);
     setWorkspace(c.data);
     setReasons(r.data ?? []);
+    setCommercial(schema);
     if (['owner', 'admin'].includes(c.data.role)) {
       const m = await fetch('/api/account/members').then(body);
       setMembers(m.members ?? []);
@@ -228,7 +267,16 @@ export default function LeadsPage() {
   }, [load, search]);
   async function open(id: string) {
     try {
-      setSelected((await fetch(`/api/leads/${id}`).then(body)).data);
+      const lead = (await fetch(`/api/leads/${id}`).then(body)).data as Lead;
+      setSelected(lead);
+      setFieldValues(
+        Object.fromEntries(
+          (lead.field_values ?? []).map((value) => [
+            value.field_definition_id,
+            value.value,
+          ])
+        )
+      );
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'No se pudo abrir');
     }
@@ -257,6 +305,33 @@ export default function LeadsPage() {
       setSaving(false);
     }
   }
+  async function saveCommercial() {
+    if (!selected) return;
+    setSaving(true);
+    try {
+      await body(
+        await fetch(`/api/leads/${selected.id}/commercial-data`, {
+          method: 'PATCH',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            opportunity_type_id: selected.opportunity_type_id,
+            catalog_item_id: selected.catalog_item_id,
+            field_values: fieldValues,
+          }),
+        })
+      );
+      toast.success('Datos comerciales actualizados');
+      await refresh();
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'No se pudieron guardar los datos'
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
   async function save() {
     if (!selected) return;
     setSaving(true);
@@ -276,7 +351,11 @@ export default function LeadsPage() {
       }
       if (result === 'rescheduled') data.reason_code = reasonCode;
       if (result === 'won') {
-        data.sold_product = product;
+        data.sold_product =
+          product ||
+          commercial.catalog_items.find(
+            (item) => item.id === selected.catalog_item_id
+          )?.name;
         data.won_amount = amount || undefined;
         data.won_currency = amount ? 'ARS' : undefined;
       }
@@ -550,6 +629,93 @@ export default function LeadsPage() {
                   </select>
                 </Field>
               )}
+              {!readOnly && (
+                <div className="bg-muted/20 space-y-4 rounded-xl border p-4">
+                  <div>
+                    <h3 className="font-semibold">Datos de la oportunidad</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Información de esta venta concreta.
+                    </p>
+                  </div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Field label="Tipo de oportunidad">
+                      <select
+                        value={selected.opportunity_type_id ?? ''}
+                        onChange={(e) =>
+                          setSelected({
+                            ...selected,
+                            opportunity_type_id: e.target.value || null,
+                          })
+                        }
+                        className="bg-background h-9 w-full rounded-lg border px-3"
+                      >
+                        <option value="">Sin tipo</option>
+                        {commercial.opportunity_types
+                          .filter((item) => item.is_active)
+                          .map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    </Field>
+                    <Field label="Producto, servicio o plan">
+                      <select
+                        value={selected.catalog_item_id ?? ''}
+                        onChange={(e) =>
+                          setSelected({
+                            ...selected,
+                            catalog_item_id: e.target.value || null,
+                          })
+                        }
+                        className="bg-background h-9 w-full rounded-lg border px-3"
+                      >
+                        <option value="">Sin seleccionar</option>
+                        {commercial.catalog_items
+                          .filter((item) => item.is_active)
+                          .map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    </Field>
+                  </div>
+                  {commercial.field_definitions
+                    .filter(
+                      (field) =>
+                        field.is_active &&
+                        (!field.opportunity_type_id ||
+                          field.opportunity_type_id ===
+                            selected.opportunity_type_id)
+                    )
+                    .map((field) => (
+                      <Field
+                        key={field.id}
+                        label={`${field.name}${field.is_required ? ' *' : ''}`}
+                      >
+                        <CommercialFieldInput
+                          field={field}
+                          value={fieldValues[field.id]}
+                          onChange={(value) =>
+                            setFieldValues((current) => ({
+                              ...current,
+                              [field.id]: value,
+                            }))
+                          }
+                        />
+                      </Field>
+                    ))}
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => void saveCommercial()}
+                    disabled={saving}
+                  >
+                    Guardar datos comerciales
+                  </Button>
+                </div>
+              )}
               {!readOnly &&
                 selected.assigned_to_user_id &&
                 !['won', 'discarded'].includes(selected.status) && (
@@ -631,6 +797,11 @@ export default function LeadsPage() {
                           <Input
                             value={product}
                             onChange={(e) => setProduct(e.target.value)}
+                            placeholder={
+                              commercial.catalog_items.find(
+                                (item) => item.id === selected.catalog_item_id
+                              )?.name ?? 'Detalle de la venta'
+                            }
                           />
                         </Field>
                         <Field label="Importe opcional (ARS)">
@@ -696,5 +867,69 @@ function Field({
       <Label>{label}</Label>
       {children}
     </div>
+  );
+}
+function CommercialFieldInput({
+  field,
+  value,
+  onChange,
+}: {
+  field: FieldDefinition;
+  value: unknown;
+  onChange: (value: unknown) => void;
+}) {
+  if (field.field_type === 'boolean')
+    return (
+      <select
+        value={value === true ? 'true' : value === false ? 'false' : ''}
+        onChange={(e) =>
+          onChange(e.target.value === '' ? null : e.target.value === 'true')
+        }
+        className="bg-background h-9 w-full rounded-lg border px-3"
+      >
+        <option value="">Sin definir</option>
+        <option value="true">Sí</option>
+        <option value="false">No</option>
+      </select>
+    );
+  if (field.field_type === 'select')
+    return (
+      <select
+        value={typeof value === 'string' ? value : ''}
+        onChange={(e) => onChange(e.target.value)}
+        required={field.is_required}
+        className="bg-background h-9 w-full rounded-lg border px-3"
+      >
+        <option value="">Seleccionar</option>
+        {field.options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    );
+  return (
+    <Input
+      type={
+        field.field_type === 'number'
+          ? 'number'
+          : field.field_type === 'date'
+            ? 'date'
+            : 'text'
+      }
+      value={
+        typeof value === 'string' || typeof value === 'number'
+          ? String(value)
+          : ''
+      }
+      required={field.is_required}
+      onChange={(e) =>
+        onChange(
+          field.field_type === 'number' && e.target.value !== ''
+            ? Number(e.target.value)
+            : e.target.value
+        )
+      }
+    />
   );
 }

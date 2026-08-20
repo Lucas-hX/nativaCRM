@@ -67,6 +67,18 @@ BEGIN
   ) THEN
     RAISE EXCEPTION 'seller workflow commercial fields are missing — migration 047 did not apply';
   END IF;
+  IF to_regclass('public.opportunity_types') IS NULL
+     OR to_regclass('public.catalog_items') IS NULL
+     OR to_regclass('public.lead_field_definitions') IS NULL
+     OR to_regclass('public.lead_field_values') IS NULL THEN
+    RAISE EXCEPTION 'commercial domain tables are missing — migration 049 did not apply';
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname='public' AND tablename='lead_field_values' AND policyname='lead_field_values_modify'
+  ) THEN
+    RAISE EXCEPTION 'commercial lead value RLS is missing — migration 049 did not apply';
+  END IF;
   IF to_regclass('public.domain_events') IS NULL THEN
     RAISE EXCEPTION 'public.domain_events is missing — migration 042 did not apply';
   END IF;

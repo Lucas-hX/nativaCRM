@@ -79,7 +79,7 @@
     "groups": { "account": "Cuenta", "workspace": "Espacio de trabajo" },
     "sections": {
       "overview": "Resumen", "profile": "Mi perfil", "security": "Acceso y seguridad",
-      "appearance": "Apariencia", "integrations": "Integraciones", "whatsapp": "WhatsApp",
+      "appearance": "Apariencia", "commercial": "Modelo comercial", "integrations": "Integraciones", "whatsapp": "WhatsApp",
       "make": "Make", "meta-leads": "Meta Lead Ads", "google-sheets": "Google Sheets", "templates": "Plantillas",
       "quick-replies": "Respuestas rápidas", "fields": "Campos y etiquetas",
       "deals": "Oportunidades y moneda", "members": "Integrantes del equipo", "api": "Claves de API"
