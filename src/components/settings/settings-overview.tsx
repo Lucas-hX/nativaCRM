@@ -60,8 +60,6 @@ export function SettingsOverview({
 
   useEffect(() => {
     if (!user || !accountId || !canManageMembers) {
-      setCountsLoading(false);
-      setWhatsappLoading(false);
       return;
     }
     let cancelled = false;
