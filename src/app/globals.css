@@ -88,27 +88,27 @@
 
 :root,
 html[data-mode="dark"] {
-  --background: #15132a;
+  --background: #1a1830;
   --foreground: #f5f0e8;
-  --card: #211f3c;
-  --card-2: #2a2750;
+  --card: #0e0d1c;
+  --card-2: #3a3752;
   --card-foreground: #f5f0e8;
-  --popover: #211f3c;
+  --popover: #0e0d1c;
   --popover-foreground: #f5f0e8;
-  --secondary: #2a2750;
+  --secondary: #3a3752;
   --secondary-foreground: #f5f0e8;
-  --muted: #2a2750;
-  --muted-foreground: #aba6c0;
-  --accent: #2a2750;
+  --muted: #3a3752;
+  --muted-foreground: #b9b5c7;
+  --accent: #3a3752;
   --accent-foreground: #f5f0e8;
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: #d93a2b;
   --border: rgb(245 240 232 / 13%);
   --input: rgb(245 240 232 / 20%);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --radius: 0rem;
   --sidebar: #1a1830;
   --sidebar-foreground: #f5f0e8;
   --sidebar-accent: #2a2750;
@@ -120,29 +120,29 @@ html[data-mode="light"] {
   --background: #f5f0e8;
   --foreground: #1a1830;
   --card: oklch(1 0 0);
-  --card-2: oklch(0.985 0.002 260);
+  --card-2: #ebe5dc;
   --card-foreground: #1a1830;
   --popover: oklch(1 0 0);
   --popover-foreground: #1a1830;
-  --secondary: oklch(0.967 0.003 260);
-  --secondary-foreground: oklch(0.25 0.01 260);
-  --muted: oklch(0.967 0.003 260);
-  --muted-foreground: oklch(0.52 0.015 260);
-  --accent: oklch(0.96 0.004 260);
-  --accent-foreground: oklch(0.25 0.01 260);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0.004 260);
-  --input: oklch(0.922 0.004 260);
+  --secondary: #ebe5dc;
+  --secondary-foreground: #1a1830;
+  --muted: #ebe5dc;
+  --muted-foreground: #6e6a85;
+  --accent: #ebe5dc;
+  --accent-foreground: #1a1830;
+  --destructive: #d93a2b;
+  --border: rgb(26 24 48 / 18%);
+  --input: rgb(26 24 48 / 28%);
   --chart-2: oklch(0.6 0.1 260);
   --chart-3: oklch(0.7 0.06 260);
   --chart-4: oklch(0.8 0.04 260);
   --chart-5: oklch(0.87 0.03 260);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0.002 260);
-  --sidebar-foreground: #1a1830;
-  --sidebar-accent: oklch(0.96 0.004 260);
-  --sidebar-accent-foreground: oklch(0.25 0.01 260);
-  --sidebar-border: oklch(0.922 0.004 260);
+  --radius: 0rem;
+  --sidebar: #1a1830;
+  --sidebar-foreground: #f5f0e8;
+  --sidebar-accent: #3a3752;
+  --sidebar-accent-foreground: #f5f0e8;
+  --sidebar-border: rgb(245 240 232 / 13%);
 }
 
 /* ---- ACCENT: primary color ---- */
@@ -236,8 +236,37 @@ html[data-theme="rose"] {
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "ss01" 1, "cv02" 1;
   }
   html {
     @apply font-sans;
   }
+}
+
+@layer components {
+  .nativa-eyebrow {
+    @apply text-[0.68rem] font-medium uppercase tracking-[0.28em] text-primary;
+  }
+
+  .nativa-page-title {
+    @apply font-heading text-lg font-semibold uppercase leading-none tracking-[-0.025em] text-foreground sm:text-xl;
+  }
+
+  .nativa-rule {
+    @apply h-1.5 w-12 bg-primary;
+  }
+}
+
+/* The brand system uses solid planes and borders instead of elevation or glass. */
+.shadow-sm,
+.shadow-md,
+.shadow-lg,
+.shadow-xl,
+.shadow-2xl {
+  box-shadow: none !important;
+}
+
+.backdrop-blur-xs,
+.backdrop-blur-sm {
+  backdrop-filter: none !important;
 }

@@ -120,7 +120,7 @@
     },
     "security": { "title": "Acceso y seguridad", "description": "Cambiá tu contraseña y administrá las sesiones para mantener tu cuenta protegida." },
     "appearance": {
-      "title": "Apariencia", "description": "Elegí el modo y color principal de la aplicación. Se guarda en este dispositivo y cambia al instante.",
+      "title": "Apariencia", "description": "Elegí el modo de lectura. La identidad Nativa se mantiene en toda la aplicación.",
       "mode": "Modo", "useMode": "Usar modo {mode}", "active": "Activo", "accentColor": "Color principal", "useTheme": "Usar tema {name}"
     }
   },
