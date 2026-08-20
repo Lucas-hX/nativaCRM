@@ -127,7 +127,11 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
   const totalUnread = useTotalUnread();
   const unreadNotifications = useUnreadNotifications();
   const visibleNavItems = navItems.filter(
-    (item) => !item.adminOnly || accountRole === "owner" || accountRole === "admin",
+    (item) => {
+      if (accountRole === "agent") return item.href === "/leads" || item.href === "/inbox";
+      if (accountRole === "viewer") return item.href === "/leads";
+      return !item.adminOnly || accountRole === "owner" || accountRole === "admin";
+    },
   );
   // Only surface the account-name strip when it actually carries
   // information. A solo user's personal account is named after them
@@ -197,9 +201,9 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
         {/* Logo row. On mobile we put a close button here; on desktop the
             close button is hidden since the sidebar is always-visible. */}
         <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border px-4">
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link href={accountRole === "owner" || accountRole === "admin" ? "/dashboard" : "/leads"} className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <MessageSquare className="h-4 w-4" />
+              <span className="font-heading text-sm font-bold">N</span>
             </div>
             <span className="text-sm font-semibold text-foreground">
               {t("title")}

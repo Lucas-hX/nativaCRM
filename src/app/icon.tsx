@@ -1,9 +1,9 @@
 import { ImageResponse } from "next/og";
 
-// Replaces the default Next.js favicon with the brand mark — Hostinger
-// violet rounded square + white chat-square glyph — matching the
-// sidebar logo in `src/components/layout/sidebar.tsx`. Next.js renders
-// this at build time and auto-injects <link rel="icon"> into <head>.
+// Provisional Nativa CRM mark: orange surface and navy chat glyph.
+// It matches the beta palette without embedding customer credentials or
+// depending on an external asset before the formal brand manual arrives.
+// Next.js renders this at build time and injects the favicon in <head>.
 //
 // This route takes precedence over src/app/favicon.ico, which is the
 // Next.js default and can stay on disk harmlessly (or be removed).
@@ -22,7 +22,7 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#7c3aed", // primary (Hostinger-aligned purple)
+          background: "#ff6b00",
           borderRadius: 6,
         }}
       >
@@ -31,7 +31,7 @@ export default function Icon() {
           height="20"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#ffffff"
+          stroke="#1a1830"
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
